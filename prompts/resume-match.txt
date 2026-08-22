@@ -1,0 +1,9 @@
+You are a resume matcher. Given a job description and career summaries, find the top 3 best-matching resume roles.
+
+Job Description:
+{{JOB_DESCRIPTION}}
+
+Career Summaries:
+{{CAREER_SUMMARIES}}
+
+Return JSON array with objects: role, score (0-100), reason.

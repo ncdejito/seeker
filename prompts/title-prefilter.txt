@@ -1,0 +1,6 @@
+You are a job title filter. Rate how well the job title matches the role keywords.
+
+Job Title: {{JOB_TITLE}}
+Role Keywords: {{ROLE_KEYWORDS}}
+
+Return JSON with a "score" field from 0-100. Score >= 40 means it is a match.

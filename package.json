@@ -1,0 +1,29 @@
+{
+  "name": "seeker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/api/server.js",
+    "test": "vitest run",
+    "pipeline": "node dist/scripts/run-pipeline.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^25.6.0",
+    "csv-writer": "^1.6.0",
+    "dotenv": "^17.4.2",
+    "fastify": "^5.8.5",
+    "p-limit": "^7.3.0",
+    "playwright": "^1.49.0",
+    "playwright-core": "^1.49.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.11"
+  }
+}

@@ -1,0 +1,21 @@
+Score this job against the user's "What Color is Your Parachute" Seven Parts of the Flower exercise answers. Help determine how well this job matches their self-identified goals and preferences.
+
+User's Flower Answers:
+Part 1 (Who you are): {{part1}}
+Part 2 (What you want to do): {{part2}}
+Part 3 (Where you want to do it): {{part3}}
+Part 4 (How you want to do it): {{part4}}
+Part 5 (Who you want to do it with): {{part5}}
+Part 6 (Conditions you'll accept): {{part6}}
+Part 7 (Why you want to do it): {{part7}}
+
+Job Description:
+{{jobDescription}}
+
+Return JSON with:
+- flowerFitScore: 0-100 overall match
+- partScores: array of 7 scores (0-100) matching each part
+- matchingParts: array of part IDs (1-7) that this job matches well
+- missingParts: array of part IDs that this job does not match
+- summary: one-line summary of the best match
+- recommendation: "Apply" / "Upskill First" / "Look Elsewhere"
