@@ -63,10 +63,14 @@ export class HiringCafeScraper extends BaseScraper {
       await page.waitForTimeout(this.config?.minDelayMs || 2000);
 
       const jobData = await page.evaluate(() => {
-        const title = document.querySelector('h1')?.textContent?.trim() ||
-                    document.querySelector('h2')?.textContent?.trim() || '';
-        const company = document.querySelector('[class*="company"]')?.textContent?.trim() || '';
-        const location = document.querySelector('[class*="location"]')?.textContent?.trim() || '';
+        // Hiring Cafe uses unlabeled Tailwind utility classes, no semantic
+        // hooks — title/company/domain-link/location are siblings in a fixed
+        // order under the h1's parent, consistent across job pages.
+        const h1 = document.querySelector('h1');
+        const siblings = h1?.parentElement ? Array.from(h1.parentElement.children) : [];
+        const title = h1?.textContent?.trim() || '';
+        const company = siblings[2]?.textContent?.trim() || '';
+        const location = siblings[4]?.textContent?.trim() || '';
         return { title, company, location };
       });
 
