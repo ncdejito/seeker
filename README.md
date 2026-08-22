@@ -1,173 +1,82 @@
-# Seeker — Job Search Assistant
+<p align="center">
+  <img src="public/logo.png" alt="Seeker logo" width="120" />
+</p>
 
-Automate job discovery, scoring, and alerts so you focus on tailoring applications, not searching.
+<h1 align="center">Seeker — Job Search Assistant</h1>
+
+<p align="center">Never lose track of what you're actually looking for — scrape job boards, filter by your own criteria, and get only the good ones pushed to your phone.</p>
 
 ---
 
 ## Why
 
-Manual job searching is time-consuming and inconsistent. Seeker scrapes job boards hourly, scores each opening for technical fit and aspirational fit via LLM, and alerts you only for high-fit roles. You tell it your preferences via the "Seven Parts of the Flower" exercise from *What Color is Your Parachute*, and it filters jobs to those that match your goals, location, work style, conditions, and purpose.
+Manual job searching is time-consuming and inconsistent, and it's easy to drift into applying for anything instead of what you actually want. Seeker starts from a clear statement of what you want (the "Seven Petals" exercise from *What Color Is Your Parachute*), scrapes job boards against that, and sends only the roles worth your time to Telegram.
 
 ---
 
-## How It Works
+## How to use this repo
 
-```text
-Job sites + ad-hoc links
-        │
-        ▼
-Title pre-filter (LLM, score >= 40 → skip description)
-        │
-        ▼
-Technical fit scoring (CV + JD, 0-100, strengths/gaps)
-        │
-        ▼
-Aspirational fit scoring (JD, 5 dimensions: salary, geo, skills, purpose, conditions)
-        │
-        ▼
-Resume match scoring (JD + 11 resumes, top 3 matches)
-        │
-        ▼
-Flower fit scoring (JD + 7 flower parts, 7 part scores + overall)
-        │
-        ▼
-Ranked CSV + Telegram alerts (total_fit >= 120)
+### 1. Figure out what you're actually looking for
+
+Open [`prompts/flower-exercise.md`](prompts/flower-exercise.md) and paste its contents into ChatGPT, Claude, or any AI chat app. It will interview you about the seven petals — who you are, what you want to do, where, how, with whom, under what conditions, and why — and hand you back seven `FLOWER_PART1..7` strings.
+
+### 2. Make this repo yours
+
+Copy the example config and fill in the blanks:
+
+```bash
+cd src/seeker
+cp .env.example .env
 ```
+
+In `.env`, paste in:
+- The `FLOWER_PART1..7` values from step 1
+- `LOCAL_CV_PATH` — absolute path to your resume PDF
+- `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` — message [@BotFather](https://t.me/BotFather) to create a bot and get a token; message [@userinfobot](https://t.me/userinfobot) to get your chat ID
+
+Then set up your preferences and resumes:
+
+```bash
+cp state/preferences.example.json state/preferences.json
+```
+
+- **[`state/preferences.json`](state/preferences.example.json)** (from the example above) — hard filters: role keywords, seniority level, seniority titles to exclude (e.g. "director", "VP")
+- **[`resumes/*.ts`](resumes)** — one file per resume variant you have (e.g. `ai-eng.ts`, `data-eng.ts`); each just needs a `role`, a `careerSummary`, and the `filePath` to that PDF
+
+### 3. Ask your AI coding agent to find you jobs
+
+With this repo open in Claude Code (or a similar coding agent), just ask:
+
+> "Scrape today's jobs and send me the ones that match my preferences on Telegram."
+
+The agent follows [`AGENTS.md`](AGENTS.md) to run the scrapers (`npm run build && node dist/scripts/scrape-today.js`), filter the results against `state/preferences.json`, and push the top matches with `node dist/scripts/send-telegram.js "..."`. Do this daily, or whenever you have a few minutes — it takes the place of manually refreshing five job boards.
+
+---
+
+## Files you'll want to edit
+
+| File | What it's for |
+|---|---|
+| [`prompts/flower-exercise.md`](prompts/flower-exercise.md) | Copy-paste prompt to figure out your `FLOWER_PART1..7` answers |
+| `.env` (from `.env.example`) | Your flower answers, resume path, Telegram credentials |
+| `state/preferences.json` (from [`preferences.example.json`](state/preferences.example.json)) | Hard filters: keywords, seniority, excluded levels |
+| [`resumes/*.ts`](resumes) | Your resume variant(s) — role, summary, PDF path |
 
 ---
 
 ## Key Features
 
-- **Title pre-filter** — Skip jobs with mismatched titles before fetching descriptions (saves LLM cost)
-- **Technical fit** — Score 0-100 with strengths, critical gaps, upskill estimate
-- **Aspirational fit** — 5 dimensions: salary, geography, favorite skills, skills to learn, purpose, working conditions
-- **Resume matching** — Top 3 resume versions with fit scores and reasons
-- **Flower assessment** — 7 parts from *What Color is Your Parachute* → per-job fit scores + recommendation
-- **Ranked output** — CSV sorted by `total_fit` (technical + aspirational)
-- **Telegram alerts** — High-fit jobs pushed to you (configurable)
+- **Multi-site scraping** — Hiring Cafe, EURES, Work in Finland, Adzuna (Australia), each respecting that site's `robots.txt` and crawl-delay
+- **Preference filtering** — drop jobs at excluded seniority levels before they ever reach you
+- **Telegram delivery** — matches land in your chat, not buried in a spreadsheet
+- **Flower-based fit criteria** — grounded in a real self-assessment, not just keyword matching
 
 ---
 
-## Prerequisites
+## Current Limitations
 
-- Node.js 18+
-- One LLM provider:
-  - **OpenAI**: `OPENAI_API_KEY` env var
-  - **Local (llama.cpp)**: `MODEL_PROVIDER=local`, `LOCAL_LLM_BASE_URL`
-  - **Opencode (default)**: No API key needed — uses `opencode run` CLI
-- CV path: `LOCAL_CV_PATH` (absolute path to your resume PDF)
-- Optional: `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` for alerts
+The full LLM-scored pipeline described in [`architecture.md`](architecture.md) (title pre-filter → technical fit → aspirational fit → resume match → ranked CSV, all automatic on a cron) is still being built — see [`AGENTS.md`](AGENTS.md) for exact status. Today, the working path is: scrape → filter by `state/preferences.json` → your AI agent sends the shortlist to Telegram, which is enough to replace manually checking job boards.
 
----
+Other known gaps: Climatebase is blocked (Cloudflare, no public API); no cross-site dedup yet.
 
-## Environment Variables (`.env.example`)
-
-```bash
-MODEL_PROVIDER=opencode           # default, no API key needed
-LOCAL_CV_PATH=/path/to/cv.pdf     # required
-FLOWER_PART1-7=...                # Seven Parts of the Flower answers (V2)
-TELEGRAM_BOT_TOKEN=...            # optional, for alerts
-TELEGRAM_CHAT_ID=...              # optional, for alerts
-```
-
----
-
-## Usage
-
-### One-shot scan (recommended)
-
-```bash
-cd src/seeker
-FLOWER_PART1="Python developer with 5 years experience. Core values: integrity and collaboration."
-FLOWER_PART2="Want to work on AI/ML projects with measurable impact."
-FLOWER_PART3="Prefer London or remote within GMT timezone."
-FLOWER_PART4="Like flexible working hours with core collaboration time 10am-4pm."
-FLOWER_PART5="Enjoy working in small teams of 3-5 people with flat hierarchy."
-FLOWER_PART6="Salary above 50k with good health benefits and 25 days vacation."
-FLOWER_PART7="Want to make an impact through technology that improves people's lives."
-npm run pipeline
-```
-
-### API
-
-```bash
-# Start server
-node dist/api/server.pm2  # or: pm2 start ecosystem.config.js
-
-# Trigger run
-curl -X POST http://localhost:3000/jobs/run
-
-# Sync run (wait for result)
-curl http://localhost:3000/jobs/run/sync
-
-# Check status
-curl http://localhost:3000/jobs/status
-
-# Queue ad-hoc job
-curl -X POST http://localhost:3000/jobs/adhoc \
-  -d '{"urls": ["https://example.com/job/123"]}'
-```
-
-### Daily cron
-
-```bash
-0 9 * * * cd /path/to/seeker && node dist/scripts/run-pipeline.js >> logs/cron.log 2>&1
-```
-
----
-
-## Project Structure
-
-```text
-src/
-├── api/server.ts           Fastify REST API
-├── config/env.ts           Env loader (required vars + flower)
-├── pipeline/
-│   ├── orchestrator.ts     Main pipeline + flower integration
-│   ├── title-filter.ts     LLM title pre-filter (score >= 40)
-│   ├── technical-fit.ts    Technical scoring (CV + JD)
-│   ├── aspirational-fit.ts Aspirational scoring (5 dimensions)
-│   ├── resume-match.ts     Resume matching (top 3 from 11 resumes)
-│   └── csv-writer.ts       CSV output (sorted by total_fit)
-├── flower/                 V2: Flower exercise parser + criteria
-├── scrapers/              Job site scrapers (HiringCafe, EURES, WorkInFinland)
-├── llm/                   LLM provider abstraction (OpenAI/local/opencode)
-├── resume/                CV/resume loaders
-└── scripts/               Runnable pipelines (run-pipeline.ts)
-```
-
----
-
-## Tests
-
-```bash
-npm test          # runs vitest (unit tests only, no network)
-# Flower tests: tests/unit/flower/exercise.test.ts
-```
-
----
-
-## Output: CSV Columns
-
-`date, job_url, job_title, company, technical_fit, technical_fit_reason, aspirational_fit, aspirational_fit_reason, total_fit, top_resume_match_1, resume_fit_score_1, resume_match_reason_1, top_resume_match_2, resume_fit_score_2, resume_match_reason_2, top_resume_match_3, resume_fit_score_3, resume_match_reason_3, recommendation, critical_gaps, upskill_time, flowerFitScore, part1Score-part7Score, flowerSummary`
-
----
-
-## Tech Stack
-
-- **Runtime:** Node.js + TypeScript
-- **API:** Fastify
-- **Scraping:** Playwright + obscura (stealth mode)
-- **LLM:** OpenAI / local (OpenAI-compatible) / opencode CLI
-- **Process:** PM2
-- **Storage:** Flat files (no database)
-
----
-
-## Gaps / Known Limitations
-
-- Cross-site dedup: same job on 2 sites scored twice (documented future: URL normalisation)
-- Post-date filtering: pages 1–5 heuristic only
-- Glassdoor rating: defaults to 2 (uncertain) if not in JD
-- Climatebase: blocked (no public API support)
-- Multi-user: single-user only
+For full setup, environment variables, and project internals, see [AGENTS.md](AGENTS.md).

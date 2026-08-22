@@ -1,0 +1,9 @@
+{
+  "role_keywords": "robotics AI",
+  "seniority": "senior_mid",
+  "excluded_levels": ["director", "vp", "head", "chief"],
+  "exclude_junior": true,
+  "source_preferences": ["hiringcafe", "eures", "workinfinland"],
+  "date_created": "2026-08-21",
+  "last_updated": "2026-08-21"
+}

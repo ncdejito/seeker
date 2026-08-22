@@ -13,12 +13,12 @@ export const SCRAPER_CONFIGS: Record<string, ScraperSiteConfig> = {
   'hiring-cafe': {
     name: 'Hiring Cafe',
     baseUrl: 'https://hiring.cafe',
-    allowedPaths: ['/', '/jobs/', '/jobs/*/', '/viewjob/*', '/company/*'],
-    disallowedPaths: ['/account', '/inbox', '/invite', '/applicant/', '/share/', '/myhiringcafe/', '/admin/', '/*?searchState=*'],
+    allowedPaths: ['/', '/job/', '/jobs/', '/recently-posted-jobs'],
+    disallowedPaths: ['/viewjob/', '/org/', '/company/', '/account', '/inbox', '/invite/', '/applicant/', '/share/', '/myhiringcafe/', '/admin/', '/*?searchState=*', '/*?page=*'],
     minDelayMs: 2000,
     maxDelayMs: 5000,
     enabled: true,
-    notes: 'Allows job pages and company pages. Discourages parameterized search URLs.',
+    notes: 'robots.txt disallows /viewjob/, /org/, and ?searchState= query params — use /recently-posted-jobs and /job/ instead.',
   },
 
   'climatebase': {

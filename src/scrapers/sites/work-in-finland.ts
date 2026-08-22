@@ -1,9 +1,10 @@
 import { BaseScraper } from '../base-scraper.js';
 import { SCRAPER_CONFIGS, isPathAllowed } from '../../config/site-configs.js';
-import { getBrowser } from '../browser.js';
 
 export class WorkInFinlandScraper extends BaseScraper {
   private config = SCRAPER_CONFIGS['work-in-finland'];
+  /** Job cards list title/company/location inline; the job detail page (off-domain, jobly.fi) is bot-gated, so cache this instead of re-fetching it. */
+  private listingCache = new Map<string, { title: string; company: string; location: string }>();
 
   constructor() {
     super('https://www.workinfinland.com');
@@ -19,9 +20,7 @@ export class WorkInFinlandScraper extends BaseScraper {
       return [];
     }
 
-    const browser = await getBrowser();
-    const context = browser.contexts()[0] || await browser.newContext();
-    const page = context.pages()[0] || await context.newPage();
+    const page = await this.getPage();
     const urls: string[] = [];
 
     try {
@@ -35,21 +34,19 @@ export class WorkInFinlandScraper extends BaseScraper {
       await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
       await page.waitForTimeout(this.config.minDelayMs);
 
-      const jobLinks = await page.evaluate(() => {
-        const links = Array.from(document.querySelectorAll('a[href*="job"]'));
-        return links
-          .filter(a => {
-            const text = a.textContent?.toLowerCase() || '';
-            return (a as HTMLAnchorElement).href.includes('/job/') &&
-                   !text.includes('cookie') &&
-                   !text.includes('find a job') &&
-                   text.length > 5;
-          })
-          .slice(0, 10)
-          .map(a => (a as HTMLAnchorElement).href);
-      });
+      const jobCards = await page.$$eval('a.job-card[href*="/job/"]', links =>
+        links.map(a => ({
+          href: (a as HTMLAnchorElement).href,
+          title: a.querySelector('.job-card__title')?.textContent?.trim() || '',
+          company: a.querySelector('.job-card__employerName')?.textContent?.trim() || '',
+          location: a.querySelector('.job-card__location')?.textContent?.trim() || '',
+        }))
+      );
 
-      urls.push(...jobLinks.slice(0, 2));
+      for (const card of jobCards.slice(0, 10)) {
+        this.listingCache.set(card.href, card);
+        urls.push(card.href);
+      }
     } catch (err) {
       console.error('Error fetching Work in Finland listings:', err);
     }
@@ -58,37 +55,7 @@ export class WorkInFinlandScraper extends BaseScraper {
   }
 
   async fetchJobDescription(url: string): Promise<string> {
-    const browser = await getBrowser();
-    const context = browser.contexts()[0] || await browser.newContext();
-    const page = context.pages()[0] || await context.newPage();
-    let description = '';
-
-    try {
-      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
-      await page.waitForTimeout(this.config?.minDelayMs || 3000);
-
-      const jobData = await page.evaluate(() => {
-        const title = document.querySelector('h1')?.textContent?.trim() ||
-                     document.querySelector('[class*="title"]')?.textContent?.trim() ||
-                     document.querySelector('h2')?.textContent?.trim() || '';
-        const company = document.querySelector('[class*="employer"]')?.textContent?.trim() ||
-                       document.querySelector('[class*="company"]')?.textContent?.trim() ||
-                       document.querySelector('[class*="organisation"]')?.textContent?.trim() || '';
-        const location = document.querySelector('[class*="location"]')?.textContent?.trim() ||
-                        document.querySelector('[class*="city"]')?.textContent?.trim() || '';
-        return { title, company, location };
-      });
-
-      description = `Title: ${jobData.title}\nCompany: ${jobData.company}\nLocation: ${jobData.location}`;
-    } catch (err) {
-      console.error(`Error fetching job description from ${url}:`, err);
-    }
-
-    return description;
-  }
-
-  async extractCompanyName(url: string, html: string): Promise<string | null> {
-    const match = html.match(/Company:\s*(.+)/);
-    return match ? match[1] : null;
+    const cached = this.listingCache.get(url);
+    return cached ? this.formatJobDescription(cached) : '';
   }
 }

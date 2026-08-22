@@ -65,7 +65,7 @@ describe('scrapers/eures', () => {
     expect(mockPage.goto).toHaveBeenCalledOnce()
     expect(mockPage.goto).toHaveBeenCalledWith(
       expect.stringContaining('europa.eu/eures/portal/jv-se/search'),
-      expect.objectContaining({ waitUntil: 'domcontentloaded' })
+      expect.objectContaining({ waitUntil: 'networkidle' })
     )
     expect(mockPage.$$eval).toHaveBeenCalledWith(
       'a[href*="/jv-se/jv-details/"]',
@@ -91,7 +91,7 @@ describe('scrapers/eures', () => {
 
     expect(mockPage.goto).toHaveBeenCalledWith(
       'https://europa.eu/job/1',
-      expect.objectContaining({ waitUntil: 'domcontentloaded' })
+      expect.objectContaining({ waitUntil: 'networkidle' })
     )
     expect(mockPage.evaluate).toHaveBeenCalledOnce()
     expect(description).toBe('Title: AI Engineer\nCompany: Acme Corp\nLocation: Berlin')

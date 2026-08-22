@@ -1,3 +1,5 @@
+import { getBrowser } from './browser.js';
+
 export abstract class BaseScraper {
   protected baseUrl: string;
   protected minDelay: number;
@@ -13,7 +15,23 @@ export abstract class BaseScraper {
 
   abstract fetchListingUrls(maxPages: number): Promise<string[]>;
   abstract fetchJobDescription(url: string): Promise<string>;
-  abstract extractCompanyName(url: string, html: string): Promise<string | null>;
+
+  /** Default: parses "Company: X" out of a formatted description. Override if a site needs different parsing. */
+  async extractCompanyName(url: string, html: string): Promise<string | null> {
+    const match = html.match(/Company:\s*(.+)/);
+    return match ? match[1] : null;
+  }
+
+  /** Shared browser/context/page lookup used by every scraper's fetch methods. */
+  protected async getPage() {
+    const browser = await getBrowser();
+    const context = browser.contexts()[0] || (await browser.newContext());
+    return context.pages()[0] || (await context.newPage());
+  }
+
+  protected formatJobDescription(data: { title: string; company: string; location: string }): string {
+    return `Title: ${data.title}\nCompany: ${data.company}\nLocation: ${data.location}`;
+  }
 
   async checkRobotsCompliance(path: string): Promise<boolean> {
     try {
