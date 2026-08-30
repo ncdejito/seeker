@@ -1,0 +1,267 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>Skill Map — Robotics specializations</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height:100%; overflow:hidden; }
+  body { background:#0a0e15; color:#e8e8ea; font-family:'JetBrains Mono','Courier New',monospace; margin:0; padding:0; display:flex; flex-direction:column; }
+  .topbar { display:flex; justify-content:space-between; align-items:flex-start; padding:14px 30px; border-bottom:1px solid #1f2530; flex-wrap:wrap; gap:14px; flex:0 0 auto; }
+  .title { font-size:10.5px; letter-spacing:0.14em; color:#5a6472; }
+  .title2 { font-size:20px; font-weight:700; color:#fff; margin-top:3px; }
+  .tabs { display:flex; gap:8px; margin-top:8px; }
+  .tabs button { background:#0f1319; border:1px solid #2a3140; color:#7a828e; font-size:11.5px; padding:8px 14px; font-family:inherit; border-radius:4px; cursor:pointer; }
+  .tabs button.active { border-color:#00e5ff; color:#00e5ff; background:#0d1a1e; }
+  .toolbar button { background:#141922; border:1px solid #2a3140; color:#aab2bd; font-size:11px; padding:7px 13px; margin-left:8px; font-family:inherit; border-radius:3px; cursor:pointer; }
+  .toolbar button.active { border-color:#00e5ff; color:#00e5ff; }
+  .scorebox { text-align:right; }
+  .scorebox .n { font-size:22px; font-weight:800; color:#00e5ff; }
+  .scorebox .l { font-size:9.5px; color:#7a828e; text-transform:uppercase; letter-spacing:0.08em; }
+  .legend { display:flex; gap:20px; padding:8px 30px; font-size:10.5px; color:#9aa1ac; border-bottom:1px solid #1f2530; flex-wrap:wrap; flex:0 0 auto; }
+  .legend-item { display:flex; align-items:center; gap:6px; }
+  .swatch { width:12px; height:12px; border-width:2px; border-style:solid; display:inline-block; }
+  .prio { display:flex; align-items:center; gap:5px; }
+  .dot { width:6px; height:6px; border-radius:50%; display:inline-block; }
+  .stagewrap { padding:14px 20px; overflow:hidden; flex:1 1 auto; min-height:0; position:relative; }
+  .canvas { position:absolute; left:0; top:0; }
+  .colhead { position:absolute; top:0px; font-size:8.5px; letter-spacing:0.02em; color:#525a66; text-align:center; font-weight:700; cursor:pointer; padding:4px 2px; border-radius:3px; }
+  .colhead:hover { color:#00e5ff; background:#0d1a1e; }
+  .hex {
+    position:absolute;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    border-width:1.5px; border-style:solid;
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    padding:0 13px; box-sizing:border-box;
+    cursor:pointer; user-select:none;
+    transition: transform 0.08s ease, filter 0.15s ease;
+  }
+  .hex:hover { transform: scale(1.05); filter:brightness(1.3); z-index:5; }
+  .hex.dimmed { opacity:0.12; }
+  .hexlabel { line-height:1.15; font-weight:600; }
+  .prio-badge { position:absolute; top:6px; right:16px; font-size:7px; }
+  .footer-hint { padding:4px 30px 10px; font-size:9.5px; color:#525a66; flex:0 0 auto; }
+</style></head>
+<body>
+  <div class="topbar">
+    <div>
+      <div class="title">SKILL MAP</div>
+      <div class="title2" id="treeTitle">—</div>
+      <div class="tabs" id="tabs"></div>
+    </div>
+    <div class="toolbar">
+      <button id="btnBlind">Reveal blind spots</button>
+      <button id="btnCompress">Compress to my level</button>
+      <button id="btnFull" class="active">Full tree</button>
+      <button id="btnReset">Reset progress</button>
+    </div>
+    <div class="scorebox"><div class="n" id="scoreN">0 / 0</div><div class="l">tiles claimed</div></div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><span class="swatch" style="border-color:#3a4150;background:#12151c;"></span>Gap — known</div>
+    <div class="legend-item"><span class="swatch" style="border-color:#00e5ff;background:#0d1a1e;border-style:dashed;"></span>Unassessed</div>
+    <div class="legend-item"><span class="swatch" style="border-color:#ff2e3d;background:#1f0f13;"></span>Gap — surfaced by tool</div>
+    <div class="legend-item"><span class="swatch" style="border-color:#f5a623;background:#3a2a10;"></span>In progress</div>
+    <div class="legend-item"><span class="swatch" style="border-color:#00e5ff;background:#0d3a40;"></span>Have it (self)</div>
+    <div class="legend-item"><span class="swatch" style="border-color:#00e5ff;background:#00777f;"></span>Have it (evidence)</div>
+    <div class="legend-item prio"><span class="dot" style="background:#ff9d2f;"></span>High&nbsp;&nbsp;<span class="dot" style="background:#b8bfc9;"></span>Mid&nbsp;&nbsp;<span class="dot" style="background:#4a5462;"></span>Low/unrated</div>
+  </div>
+  <div class="stagewrap" id="stagewrap"><div class="canvas" id="canvas"></div></div>
+  <div class="footer-hint">Click a tile to cycle: gap → in progress → have it (self) → have it (evidence, prompts for a link) → back to gap. <b>Click a column header to complete (or reset) that whole competency at once.</b> Priority dots = reward score / job-posting count from Learning for Work.xlsx.</div>
+
+<script>
+const DATA = {"software": {"title": "Robot Software Engineer", "tiles": [{"id": "middleware-ros-2", "tool": "ROS 2", "outcome": "route messages between robot nodes", "cluster": "MIDDLEWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Robot Middleware & Frameworks \u2014 tool list entry 'ROS 2'"}, {"id": "middleware-ros-1", "tool": "ROS 1", "outcome": "route messages between robot nodes", "cluster": "MIDDLEWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Robot Middleware & Frameworks \u2014 tool list entry 'ROS 1'"}, {"id": "middleware-micro-ros", "tool": "micro-ROS", "outcome": "route messages between robot nodes", "cluster": "MIDDLEWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Robot Middleware & Frameworks \u2014 tool list entry 'micro-ROS'"}, {"id": "middleware-yarp", "tool": "YARP", "outcome": "route messages between robot nodes", "cluster": "MIDDLEWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Robot Middleware & Frameworks \u2014 tool list entry 'YARP'"}, {"id": "middleware-lcm", "tool": "LCM", "outcome": "route messages between robot nodes", "cluster": "MIDDLEWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Robot Middleware & Frameworks \u2014 tool list entry 'LCM'"}, {"id": "motion-planning-moveit-2", "tool": "MoveIt 2", "outcome": "plan a collision-free path", "cluster": "MOTION PLANNING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Motion Planning & Navigation \u2014 tool list entry 'MoveIt 2'"}, {"id": "motion-planning-nav2", "tool": "Nav2", "outcome": "plan a collision-free path", "cluster": "MOTION PLANNING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Motion Planning & Navigation \u2014 tool list entry 'Nav2'"}, {"id": "motion-planning-ompl", "tool": "OMPL", "outcome": "plan a collision-free path", "cluster": "MOTION PLANNING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Motion Planning & Navigation \u2014 tool list entry 'OMPL'"}, {"id": "motion-planning-flexbe", "tool": "Flexbe", "outcome": "plan a collision-free path", "cluster": "MOTION PLANNING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Motion Planning & Navigation \u2014 tool list entry 'Flexbe'"}, {"id": "motion-planning-behaviortree.cpp", "tool": "BehaviorTree.CPP", "outcome": "plan a collision-free path", "cluster": "MOTION PLANNING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Motion Planning & Navigation \u2014 tool list entry 'BehaviorTree.CPP'"}, {"id": "perception-pcl", "tool": "PCL", "outcome": "turn sensor data into usable perception", "cluster": "PERCEPTION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Perception Pipeline Integration \u2014 tool list entry 'PCL'"}, {"id": "perception-opencv", "tool": "OpenCV", "outcome": "turn sensor data into usable perception", "cluster": "PERCEPTION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Perception Pipeline Integration \u2014 tool list entry 'OpenCV'"}, {"id": "perception-rtab-map", "tool": "RTAB-Map", "outcome": "turn sensor data into usable perception", "cluster": "PERCEPTION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Perception Pipeline Integration \u2014 tool list entry 'RTAB-Map'"}, {"id": "perception-open3d", "tool": "Open3D", "outcome": "turn sensor data into usable perception", "cluster": "PERCEPTION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Perception Pipeline Integration \u2014 tool list entry 'Open3D'"}, {"id": "perception-depth_image_proc", "tool": "depth_image_proc", "outcome": "turn sensor data into usable perception", "cluster": "PERCEPTION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Perception Pipeline Integration \u2014 tool list entry 'depth_image_proc'"}, {"id": "kinematics-kdl", "tool": "KDL", "outcome": "compute joint transforms & dynamics", "cluster": "KINEMATICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Kinematics & Dynamics \u2014 tool list entry 'KDL'"}, {"id": "kinematics-rbdl", "tool": "RBDL", "outcome": "compute joint transforms & dynamics", "cluster": "KINEMATICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Kinematics & Dynamics \u2014 tool list entry 'RBDL'"}, {"id": "kinematics-pinocchio", "tool": "Pinocchio", "outcome": "compute joint transforms & dynamics", "cluster": "KINEMATICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Kinematics & Dynamics \u2014 tool list entry 'Pinocchio'"}, {"id": "kinematics-drake", "tool": "Drake", "outcome": "compute joint transforms & dynamics", "cluster": "KINEMATICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Kinematics & Dynamics \u2014 tool list entry 'Drake'"}, {"id": "kinematics-eigen", "tool": "Eigen", "outcome": "compute joint transforms & dynamics", "cluster": "KINEMATICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Kinematics & Dynamics \u2014 tool list entry 'Eigen'"}, {"id": "simulation-gazebo", "tool": "Gazebo", "outcome": "validate behavior before real deployment", "cluster": "SIMULATION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Simulation & Digital Twin \u2014 tool list entry 'Gazebo'"}, {"id": "simulation-isaac-sim", "tool": "Isaac Sim", "outcome": "validate behavior before real deployment", "cluster": "SIMULATION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Simulation & Digital Twin \u2014 tool list entry 'Isaac Sim'"}, {"id": "simulation-webots", "tool": "Webots", "outcome": "validate behavior before real deployment", "cluster": "SIMULATION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Simulation & Digital Twin \u2014 tool list entry 'Webots'"}, {"id": "simulation-mujoco", "tool": "Mujoco", "outcome": "validate behavior before real deployment", "cluster": "SIMULATION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Simulation & Digital Twin \u2014 tool list entry 'Mujoco'"}, {"id": "simulation-coppeliasim", "tool": "CoppeliaSim", "outcome": "validate behavior before real deployment", "cluster": "SIMULATION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Simulation & Digital Twin \u2014 tool list entry 'CoppeliaSim'"}, {"id": "sensor-fusion-robot_localization", "tool": "robot_localization", "outcome": "fuse noisy sensors into one pose estimate", "cluster": "SENSOR FUSION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Sensor Fusion \u2014 tool list entry 'robot_localization'"}, {"id": "sensor-fusion-kalman-filter-libs", "tool": "Kalman filter libs", "outcome": "fuse noisy sensors into one pose estimate", "cluster": "SENSOR FUSION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Sensor Fusion \u2014 tool list entry 'Kalman filter libs'"}, {"id": "sensor-fusion-gtsam", "tool": "GTSAM", "outcome": "fuse noisy sensors into one pose estimate", "cluster": "SENSOR FUSION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Sensor Fusion \u2014 tool list entry 'GTSAM'"}, {"id": "sensor-fusion-cartographer", "tool": "Cartographer", "outcome": "fuse noisy sensors into one pose estimate", "cluster": "SENSOR FUSION", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Sensor Fusion \u2014 tool list entry 'Cartographer'"}, {"id": "hardware-ros2_control", "tool": "ros2_control", "outcome": "command actuators over the wire", "cluster": "HARDWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Hardware Communication & Actuation \u2014 tool list entry 'ros2_control'"}, {"id": "hardware-ethercat", "tool": "EtherCAT", "outcome": "command actuators over the wire", "cluster": "HARDWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Hardware Communication & Actuation \u2014 tool list entry 'EtherCAT'"}, {"id": "hardware-dynamixel-sdk", "tool": "Dynamixel SDK", "outcome": "command actuators over the wire", "cluster": "HARDWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Hardware Communication & Actuation \u2014 tool list entry 'Dynamixel SDK'"}, {"id": "hardware-can-interface-libs", "tool": "CAN interface libs", "outcome": "command actuators over the wire", "cluster": "HARDWARE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Hardware Communication & Actuation \u2014 tool list entry 'CAN interface libs'"}, {"id": "deployment-docker", "tool": "Docker", "outcome": "package and deploy the robot stack", "cluster": "DEPLOYMENT", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / System Integration & Deployment \u2014 tool list entry 'Docker'"}, {"id": "deployment-rosdep", "tool": "rosdep", "outcome": "package and deploy the robot stack", "cluster": "DEPLOYMENT", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / System Integration & Deployment \u2014 tool list entry 'rosdep'"}, {"id": "deployment-colcon", "tool": "colcon", "outcome": "package and deploy the robot stack", "cluster": "DEPLOYMENT", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / System Integration & Deployment \u2014 tool list entry 'colcon'"}, {"id": "deployment-ros-2-lifecycle-nodes", "tool": "ROS 2 lifecycle nodes", "outcome": "package and deploy the robot stack", "cluster": "DEPLOYMENT", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / System Integration & Deployment \u2014 tool list entry 'ROS 2 lifecycle nodes'"}, {"id": "deployment-dds-tuning", "tool": "DDS tuning", "outcome": "package and deploy the robot stack", "cluster": "DEPLOYMENT", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / System Integration & Deployment \u2014 tool list entry 'DDS tuning'"}, {"id": "safety-watchdog-timers", "tool": "Watchdog timers", "outcome": "detect and recover from a fault", "cluster": "SAFETY", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Safety & Fault Handling \u2014 tool list entry 'Watchdog timers'"}, {"id": "safety-e-stop-logic", "tool": "e-stop logic", "outcome": "detect and recover from a fault", "cluster": "SAFETY", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Safety & Fault Handling \u2014 tool list entry 'e-stop logic'"}, {"id": "safety-behaviortree.cpp", "tool": "BehaviorTree.CPP", "outcome": "detect and recover from a fault", "cluster": "SAFETY", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Safety & Fault Handling \u2014 tool list entry 'BehaviorTree.CPP'"}, {"id": "safety-groot", "tool": "Groot", "outcome": "detect and recover from a fault", "cluster": "SAFETY", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics Software Engineer / Safety & Fault Handling \u2014 tool list entry 'Groot'"}, {"id": "simulation-genesis", "tool": "Genesis", "outcome": "prototype robot behavior in sim", "cluster": "SIMULATION", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Simulation Environments / Genesis (reward=2, risk=2, jd=None)"}, {"id": "simulation-mujoco", "tool": "MuJoCo", "outcome": "prototype robot behavior in sim", "cluster": "SIMULATION", "current_state": "gap_known", "priority": "high", "occ": 1, "source": "Tools sheet: Simulation Environments / MuJoCo (reward=3, risk=3, jd=1)"}, {"id": "simulation-isaac-sim", "tool": "Isaac Sim", "outcome": "prototype robot behavior in sim", "cluster": "SIMULATION", "current_state": "gap_known", "priority": "high", "occ": 1, "source": "Tools sheet: Simulation Environments / Isaac Sim (reward=3, risk=3, jd=1)"}, {"id": "simulation-isaac-lab", "tool": "Isaac Lab", "outcome": "prototype robot behavior in sim", "cluster": "SIMULATION", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Simulation Environments / Isaac Lab (reward=3, risk=3, jd=None)"}, {"id": "simulation-gazebo-gz-sim", "tool": "Gazebo", "outcome": "prototype robot behavior in sim", "cluster": "SIMULATION", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Simulation Environments / Gazebo (GZ Sim) (reward=2, risk=3, jd=None)"}, {"id": "debug-and-viz-foxglove-studio", "tool": "Foxglove Studio", "outcome": "debug robot state live", "cluster": "DEBUG & VIZ", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Visualization & Debugging / Foxglove Studio (reward=2, risk=3, jd=None)"}, {"id": "debug-and-viz-rerun.io", "tool": "Rerun.io", "outcome": "debug robot state live", "cluster": "DEBUG & VIZ", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Visualization & Debugging / Rerun.io (reward=3, risk=3, jd=None)"}, {"id": "debug-and-viz-rviz2", "tool": "RViz2", "outcome": "debug robot state live", "cluster": "DEBUG & VIZ", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Visualization & Debugging / RViz2 (reward=3, risk=3, jd=None)"}, {"id": "write-robot-code", "tool": "C++ / Python", "outcome": "write production robot code", "cluster": "CORE", "current_state": "gap_surfaced_by_tool", "priority": "high", "occ": 15, "source": "Requirements: Python/Systems Programming Proficiency (occ. 15, 10)"}, {"id": "deploy-real-hw", "tool": "Real hardware", "outcome": "deploy & evaluate on the physical robot", "cluster": "V&V (FIELD AI)", "current_state": "gap_surfaced_by_tool", "priority": "single-source", "occ": null, "source": "Field AI posting"}, {"id": "vv-test-rig", "tool": "Test infra", "outcome": "build a repeatable V&V test rig", "cluster": "V&V (FIELD AI)", "current_state": "gap_surfaced_by_tool", "priority": "single-source", "occ": null, "source": "Field AI posting"}, {"id": "debug-system", "tool": "Telemetry", "outcome": "root-cause a system-level failure", "cluster": "V&V (FIELD AI)", "current_state": "gap_surfaced_by_tool", "priority": "single-source", "occ": null, "source": "Field AI posting"}]}, "ml": {"title": "Robot ML Engineer", "tiles": [{"id": "evaluation-calvin", "tool": "CALVIN", "outcome": "benchmark a policy's success rate", "cluster": "EVALUATION", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Evaluation & Benchmarking / CALVIN (reward=2, risk=3, jd=None)"}, {"id": "evaluation-robomimic", "tool": "RoboMimic", "outcome": "benchmark a policy's success rate", "cluster": "EVALUATION", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Evaluation & Benchmarking / RoboMimic (reward=2, risk=3, jd=None)"}, {"id": "evaluation-robosuite", "tool": "RoboSuite", "outcome": "benchmark a policy's success rate", "cluster": "EVALUATION", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Evaluation & Benchmarking / RoboSuite (reward=3, risk=3, jd=None)"}, {"id": "evaluation-simplerenv", "tool": "SimplerEnv", "outcome": "benchmark a policy's success rate", "cluster": "EVALUATION", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Evaluation & Benchmarking / SimplerEnv (reward=3, risk=2, jd=None)"}, {"id": "imitation-learning-hg-dagger", "tool": "HG-DAgger", "outcome": "clone a demonstrated behavior into a policy", "cluster": "IMITATION LEARNING", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Imitation & Demonstration Learning / HG-DAgger (reward=2, risk=2, jd=None)"}, {"id": "imitation-learning-lerobot", "tool": "LeRobot", "outcome": "clone a demonstrated behavior into a policy", "cluster": "IMITATION LEARNING", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Imitation & Demonstration Learning / LeRobot (reward=3, risk=3, jd=None)"}, {"id": "imitation-learning-act-action-chunking-w", "tool": "ACT", "outcome": "clone a demonstrated behavior into a policy", "cluster": "IMITATION LEARNING", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Imitation & Demonstration Learning / ACT (Action Chunking with Transformers) (reward=3, risk=3, jd=None)"}, {"id": "imitation-learning-diffusion-policy", "tool": "Diffusion Policy", "outcome": "clone a demonstrated behavior into a policy", "cluster": "IMITATION LEARNING", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Imitation & Demonstration Learning / Diffusion Policy (reward=3, risk=3, jd=None)"}, {"id": "training-infra-neuracore", "tool": "neuracore", "outcome": "scale and monitor a training run", "cluster": "TRAINING INFRA", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Neural Network Training Infrastructure / neuracore (reward=None, risk=None, jd=None)"}, {"id": "training-infra-pytorch", "tool": "PyTorch", "outcome": "scale and monitor a training run", "cluster": "TRAINING INFRA", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Neural Network Training Infrastructure / PyTorch (reward=3, risk=3, jd=None)"}, {"id": "training-infra-weights-and-biases", "tool": "Weights & Biases", "outcome": "scale and monitor a training run", "cluster": "TRAINING INFRA", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Neural Network Training Infrastructure / Weights & Biases (reward=3, risk=3, jd=None)"}, {"id": "training-infra-hydra", "tool": "Hydra", "outcome": "scale and monitor a training run", "cluster": "TRAINING INFRA", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Neural Network Training Infrastructure / Hydra (reward=3, risk=3, jd=None)"}, {"id": "training-infra-jax", "tool": "JAX", "outcome": "scale and monitor a training run", "cluster": "TRAINING INFRA", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Neural Network Training Infrastructure / JAX (reward=2, risk=2, jd=None)"}, {"id": "rl-frameworks-cleanrl", "tool": "CleanRL", "outcome": "train a control policy", "cluster": "RL FRAMEWORKS", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Reinforcement Learning Frameworks / CleanRL (reward=2, risk=3, jd=None)"}, {"id": "rl-frameworks-gymnasium", "tool": "Gymnasium", "outcome": "train a control policy", "cluster": "RL FRAMEWORKS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Reinforcement Learning Frameworks / Gymnasium (reward=3, risk=3, jd=None)"}, {"id": "rl-frameworks-stable-baselines3", "tool": "Stable-Baselines3", "outcome": "train a control policy", "cluster": "RL FRAMEWORKS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Reinforcement Learning Frameworks / Stable-Baselines3 (reward=3, risk=3, jd=None)"}, {"id": "rl-frameworks-rsl-rl", "tool": "RSL-RL", "outcome": "train a control policy", "cluster": "RL FRAMEWORKS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Reinforcement Learning Frameworks / RSL-RL (reward=3, risk=2, jd=None)"}, {"id": "rl-frameworks-rllib", "tool": "RLlib", "outcome": "train a control policy", "cluster": "RL FRAMEWORKS", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Reinforcement Learning Frameworks / RLlib (reward=2, risk=3, jd=None)"}, {"id": "sim-to-real-system-identification", "tool": "System Identification", "outcome": "carry a sim-trained policy onto real hardware", "cluster": "SIM-TO-REAL", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Sim-to-Real Transfer / System Identification (reward=2, risk=2, jd=None)"}, {"id": "sim-to-real-domain-randomization", "tool": "Domain Randomization", "outcome": "carry a sim-trained policy onto real hardware", "cluster": "SIM-TO-REAL", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Sim-to-Real Transfer / Domain Randomization (reward=3, risk=3, jd=None)"}, {"id": "sim-to-real-privileged-learning-teacher-", "tool": "Privileged Learning", "outcome": "carry a sim-trained policy onto real hardware", "cluster": "SIM-TO-REAL", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Sim-to-Real Transfer / Privileged Learning (Teacher-Student Distillation) (reward=2, risk=2, jd=None)"}, {"id": "datasets-gen2act", "tool": "Gen2Act", "outcome": "version a robot trajectory dataset", "cluster": "DATASETS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Trajectory & Dataset Management / Gen2Act (reward=None, risk=None, jd=None)"}, {"id": "datasets-microagi", "tool": "microAGI", "outcome": "version a robot trajectory dataset", "cluster": "DATASETS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Trajectory & Dataset Management / microAGI (reward=None, risk=None, jd=None)"}, {"id": "datasets-rlds", "tool": "RLDS", "outcome": "version a robot trajectory dataset", "cluster": "DATASETS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Trajectory & Dataset Management / RLDS (reward=3, risk=3, jd=None)"}, {"id": "datasets-lerobot-dataset-format", "tool": "LeRobot Dataset Format", "outcome": "version a robot trajectory dataset", "cluster": "DATASETS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Trajectory & Dataset Management / LeRobot Dataset Format (reward=3, risk=3, jd=None)"}, {"id": "datasets-open-x-embodiment", "tool": "Open X-Embodiment", "outcome": "version a robot trajectory dataset", "cluster": "DATASETS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Trajectory & Dataset Management / Open X-Embodiment (reward=3, risk=3, jd=None)"}, {"id": "datasets-dvc", "tool": "DVC", "outcome": "version a robot trajectory dataset", "cluster": "DATASETS", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Trajectory & Dataset Management / DVC (reward=2, risk=3, jd=None)"}, {"id": "rl-frameworks-imitation-learning", "tool": "Imitation learning", "outcome": "train a control policy", "cluster": "RL FRAMEWORKS", "current_state": "unassessed", "priority": "unrated", "occ": 1, "source": "Tools sheet: Reinforcement Learning Frameworks / Imitation learning (reward=None, risk=None, jd=1)"}, {"id": "experiment-tracking-weights-and-biases", "tool": "Weights & Biases", "outcome": "make a training run reproducible", "cluster": "EXPERIMENT TRACKING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Experiment Tracking & Reproducibility \u2014 tool list entry 'Weights & Biases'"}, {"id": "experiment-tracking-mlflow", "tool": "MLflow", "outcome": "make a training run reproducible", "cluster": "EXPERIMENT TRACKING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Experiment Tracking & Reproducibility \u2014 tool list entry 'MLflow'"}, {"id": "experiment-tracking-hydra", "tool": "Hydra", "outcome": "make a training run reproducible", "cluster": "EXPERIMENT TRACKING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Experiment Tracking & Reproducibility \u2014 tool list entry 'Hydra'"}, {"id": "experiment-tracking-sacred", "tool": "Sacred", "outcome": "make a training run reproducible", "cluster": "EXPERIMENT TRACKING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Experiment Tracking & Reproducibility \u2014 tool list entry 'Sacred'"}, {"id": "experiment-tracking-dvc", "tool": "DVC", "outcome": "make a training run reproducible", "cluster": "EXPERIMENT TRACKING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Experiment Tracking & Reproducibility \u2014 tool list entry 'DVC'"}, {"id": "data-pipeline", "tool": "Data pipeline", "outcome": "automate cleaning & labeling at scale", "cluster": "DATASETS", "current_state": "gap_surfaced_by_tool", "priority": "mid", "occ": 9, "source": "Requirements: Data Pipeline & MLOps Engineering (occ. 9)"}]}, "researcher": {"title": "AI Researcher \u2014 VLAs", "tiles": [{"id": "agentic-robotics-agentic-robots", "tool": "agentic robots", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / agentic robots (reward=None, risk=None, jd=None)"}, {"id": "agentic-robotics-nasa-rosa--llm-to-ros-r", "tool": "NASA/ROSA - llm to ros/ros2 action", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / NASA/ROSA - llm to ros/ros2 action (reward=None, risk=None, jd=None)"}, {"id": "agentic-robotics-openmind", "tool": "OpenMind", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / OpenMind (reward=None, risk=None, jd=None)"}, {"id": "agentic-robotics-opencastor", "tool": "OpenCastor", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / OpenCastor (reward=None, risk=None, jd=None)"}, {"id": "agentic-robotics-omniplanner", "tool": "omniplanner", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / omniplanner (reward=None, risk=None, jd=None)"}, {"id": "agentic-robotics-robotec-rai--natural-la", "tool": "Robotec/rai - natural language interface connects to Dyson work", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / Robotec/rai - natural language interface connects to Dyson work (reward=None, risk=None, jd=None)"}, {"id": "agentic-robotics-nasa-rosa", "tool": "NASA/ROSA", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / NASA/ROSA (reward=3, risk=2, jd=None)"}, {"id": "agentic-robotics-llm-task-planning-sayca", "tool": "LLM Task Planning", "outcome": "turn NL commands into robot action calls", "cluster": "AGENTIC ROBOTICS", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Agentic AI for Robotics / LLM Task Planning (SayCan / Code as Policies) (reward=2, risk=2, jd=None)"}, {"id": "vla-models-lerobot", "tool": "LeRobot", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / LeRobot (reward=None, risk=None, jd=None)"}, {"id": "vla-models-visuomotor-policies-robotics", "tool": "Visuomotor policies robotics", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / Visuomotor policies robotics (reward=None, risk=None, jd=None)"}, {"id": "vla-models-humanoid-vla", "tool": "humanoid vla", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / humanoid vla (reward=None, risk=None, jd=None)"}, {"id": "vla-models-openvla", "tool": "OpenVLA", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / OpenVLA (reward=3, risk=3, jd=None)"}, {"id": "vla-models-pi-zero-physical-intelligence", "tool": "pi-zero", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / pi-zero (Physical Intelligence) (reward=3, risk=2, jd=None)"}, {"id": "vla-models-octo", "tool": "Octo", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / Octo (reward=2, risk=3, jd=None)"}, {"id": "vla-models-clip--dinov2--florence-2-visi", "tool": "CLIP / DINOv2 / Florence-2", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "gap_known", "priority": "high", "occ": null, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / CLIP / DINOv2 / Florence-2 (Vision Backbones) (reward=3, risk=3, jd=None)"}, {"id": "fine-tuning-vlm-finetuning", "tool": "VLM Finetuning", "outcome": "adapt a foundation model to a task", "cluster": "FINE-TUNING", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: VLM Fine-tuning / VLM Finetuning (reward=None, risk=None, jd=None)"}, {"id": "world-models-tesla-world-modelling", "tool": "Tesla World modelling", "outcome": "build a learned 3D scene model", "cluster": "WORLD MODELS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: World Modelling / Tesla World modelling (reward=None, risk=None, jd=None)"}, {"id": "world-models-nerf--nerfstudio", "tool": "NeRF / Nerfstudio", "outcome": "build a learned 3D scene model", "cluster": "WORLD MODELS", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: World Modelling / NeRF / Nerfstudio (reward=2, risk=2, jd=None)"}, {"id": "world-models-3d-gaussian-splatting", "tool": "3D Gaussian Splatting", "outcome": "build a learned 3D scene model", "cluster": "WORLD MODELS", "current_state": "gap_known", "priority": "mid", "occ": null, "source": "Tools sheet: World Modelling / 3D Gaussian Splatting (reward=2, risk=2, jd=None)"}, {"id": "vla-models-vla", "tool": "VLA", "outcome": "map language instructions to robot actions", "cluster": "VLA MODELS", "current_state": "unassessed", "priority": "unrated", "occ": 1, "source": "Tools sheet: Vision-Language & Action Models (VLM/VLA) / VLA (reward=None, risk=None, jd=1)"}, {"id": "fine-tuning-supervised-fine-tuning", "tool": "Supervised Fine-tuning", "outcome": "adapt a foundation model to a task", "cluster": "FINE-TUNING", "current_state": "unassessed", "priority": "unrated", "occ": 1, "source": "Tools sheet: Model Training / Fine-tuning / Supervised Fine-tuning (reward=None, risk=None, jd=1)"}, {"id": "fine-tuning-applied-ml--deep-learning-ge", "tool": "Applied ML / Deep Learning", "outcome": "adapt a foundation model to a task", "cluster": "FINE-TUNING", "current_state": "unassessed", "priority": "unrated", "occ": 2, "source": "Tools sheet: Model Training / Fine-tuning / Applied ML / Deep Learning (general) (reward=None, risk=None, jd=2)"}, {"id": "research-foundations-pytorch", "tool": "PyTorch", "outcome": "implement and train a model from scratch", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Coding / PyTorch (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-geometric-deep-lear", "tool": "Geometric Deep Learning", "outcome": "model robot structure as a graph", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Deep Learning / Geometric Deep Learning (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-tinygrad", "tool": "Tinygrad", "outcome": "build a training framework from scratch", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Deep Learning / Tinygrad (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-llm-models-from-scr", "tool": "Llm models from scratch", "outcome": "learn transformer internals by building one", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: LLM Internals / Llm models from scratch (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-deep-rl-agentic-cou", "tool": "Deep rl/agentic course hf", "outcome": "build agentic RL fundamentals", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Reinforcement Learning / Deep rl/agentic course hf (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-intuitive-rl", "tool": "intuitive rl", "outcome": "build core RL intuition", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Reinforcement Learning / intuitive rl (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-autoresearch", "tool": "autoresearch", "outcome": "automate literature review & hypothesis search", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Research / autoresearch (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-asi-ai-builds-ai", "tool": "asi ai builds ai", "outcome": "track frontier self-improving-AI research", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: Research / asi ai builds ai (reward=None, risk=None, jd=None)"}, {"id": "research-foundations-topreward-reward-mo", "tool": "TOPreward reward models", "outcome": "design a reward model to score rollouts", "cluster": "RESEARCH FOUNDATIONS", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Tools sheet: RL / Training / TOPreward reward models (reward=None, risk=None, jd=None)"}, {"id": "architecture-transformer-based-policies", "tool": "Transformer-based policies", "outcome": "design a robot policy architecture", "cluster": "ARCHITECTURE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Policy Architecture Design \u2014 tool list entry 'Transformer-based policies'"}, {"id": "architecture-diffusion-heads", "tool": "diffusion heads", "outcome": "design a robot policy architecture", "cluster": "ARCHITECTURE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Policy Architecture Design \u2014 tool list entry 'diffusion heads'"}, {"id": "architecture-lstm", "tool": "LSTM", "outcome": "design a robot policy architecture", "cluster": "ARCHITECTURE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Policy Architecture Design \u2014 tool list entry 'LSTM'"}, {"id": "architecture-gnns", "tool": "GNNs", "outcome": "design a robot policy architecture", "cluster": "ARCHITECTURE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Policy Architecture Design \u2014 tool list entry 'GNNs'"}, {"id": "architecture-pytorch", "tool": "PyTorch", "outcome": "design a robot policy architecture", "cluster": "ARCHITECTURE", "current_state": "unassessed", "priority": "unrated", "occ": null, "source": "Competencies sheet: Robotics AI Learning Researcher / Policy Architecture Design \u2014 tool list entry 'PyTorch'"}, {"id": "publish-research", "tool": "Publications", "outcome": "publish research at a top venue (RSS/NeurIPS/CoRL)", "cluster": "RESEARCH OUTPUT", "current_state": "gap_surfaced_by_tool", "priority": "high", "occ": 10, "source": "Requirements: Publications/Research Track Record (occ. 10)"}, {"id": "contribute-oss", "tool": "Open source", "outcome": "ship a merged PR to LeRobot or similar", "cluster": "RESEARCH OUTPUT", "current_state": "gap_surfaced_by_tool", "priority": "mid", "occ": 6, "source": "Requirements: Open-Source Contributions (occ. 6)"}]}};
+const STATE_COLORS = {
+  gap_known:            {border:"#3a4150", fill:"#12151c", text:"#8b93a1", dashed:false},
+  unassessed:           {border:"#00e5ff", fill:"#0d1a1e", text:"#7fd8e8", dashed:true},
+  gap_surfaced_by_tool: {border:"#ff2e3d", fill:"#1f0f13", text:"#ff8a92", dashed:false},
+  in_progress:          {border:"#f5a623", fill:"#3a2a10", text:"#ffd699", dashed:false},
+  have_it_self:         {border:"#00e5ff", fill:"#0d3a40", text:"#bdf3fb", dashed:false},
+  have_it_evidence:     {border:"#00e5ff", fill:"#00777f", text:"#ffffff", dashed:false},
+};
+const PRIO_COLOR = {high:"#ff9d2f", mid:"#b8bfc9", low:"#4a5462", unrated:"#4a5462", "single-source":"#ff2e3d"};
+const CYCLE = ["__base__","in_progress","have_it_self","have_it_evidence"];
+
+let currentTree = (new URLSearchParams(location.search).get("tab")) || Object.keys(DATA)[0];
+if(!DATA[currentTree]) currentTree = Object.keys(DATA)[0];
+let mode = "full";
+
+function storeKey(tree, id){ return "skilltree_"+tree+"_"+id; }
+function getState(tree, tile){
+  const saved = localStorage.getItem(storeKey(tree, tile.id));
+  return saved || tile.current_state;
+}
+function setState(tree, id, state, base){
+  if(state === base) localStorage.removeItem(storeKey(tree,id));
+  else localStorage.setItem(storeKey(tree,id), state);
+}
+function cycle(tree, tile){
+  const cur = getState(tree, tile);
+  let idx = CYCLE.indexOf(cur);
+  if(idx === -1) idx = 0;
+  let next = CYCLE[(idx+1) % CYCLE.length];
+  if(next === "__base__") next = tile.current_state;
+  if(next === "have_it_evidence"){
+    const ev = prompt("Evidence link/description for '"+tile.tool+" — "+tile.outcome+"':", "");
+    if(ev === null) return;
+  }
+  setState(tree, tile.id, next, tile.current_state);
+  render();
+}
+function bulkCluster(tree, clusterTiles){
+  const allClaimed = clusterTiles.every(t => ["have_it_self","have_it_evidence"].includes(getState(tree,t)));
+  clusterTiles.forEach(t=>{
+    setState(tree, t.id, allClaimed ? t.current_state : "have_it_self", t.current_state);
+  });
+  render();
+}
+
+function buildTabs(){
+  const tabs = document.getElementById("tabs");
+  tabs.innerHTML = "";
+  Object.keys(DATA).forEach(key=>{
+    const b = document.createElement("button");
+    b.textContent = DATA[key].title + " (" + DATA[key].tiles.length + ")";
+    b.className = key===currentTree ? "active":"";
+    b.onclick = ()=>{ currentTree = key; render(); };
+    tabs.appendChild(b);
+  });
+}
+
+function render(){
+  buildTabs();
+  const tree = DATA[currentTree];
+  document.getElementById("treeTitle").textContent = tree.title;
+
+  // group by cluster, then wrap any cluster deeper than MAXDEPTH into sub-columns
+  const MAXDEPTH = 6;
+  const clusterTiles = {};
+  const clusterOrder = [];
+  tree.tiles.forEach(t=>{
+    if(!clusterTiles[t.cluster]){ clusterTiles[t.cluster]=[]; clusterOrder.push(t.cluster); }
+    clusterTiles[t.cluster].push(t);
+  });
+  const columns = []; // [{label, tiles, isFirstOfCluster}]
+  clusterOrder.forEach(c=>{
+    const items = clusterTiles[c];
+    const chunks = [];
+    for(let i=0;i<items.length;i+=MAXDEPTH) chunks.push(items.slice(i,i+MAXDEPTH));
+    chunks.forEach((chunk,ci2)=> columns.push({label: ci2===0 ? c : "", tiles: chunk, clusterTiles: items, cluster: c}));
+  });
+
+  const maxRows = Math.max(...columns.map(col=>col.tiles.length));
+  const numCols = columns.length;
+
+  const stageEl = document.getElementById("stagewrap");
+  // stagewrap CSS padding is 14px top/bottom, 20px left/right — clientWidth/Height already include padding
+  const targetW = Math.max(stageEl.clientWidth - 40, 400) * 0.97;
+  const targetH = Math.max(stageEl.clientHeight - 28, 300) * 0.97;
+  const LEFT_PAD=10, TOP_PAD=30, RIGHTPAD=10, BOTPAD=10;
+
+  // S from width constraint: canvasW = LEFT_PAD + (numCols-1)*1.5S + 2S + RIGHTPAD <= targetW
+  const S_w = (targetW - LEFT_PAD - RIGHTPAD) / (1.5*(numCols-1) + 2);
+  // S from height constraint: canvasH = TOP_PAD + maxRows*sqrt3*S + sqrt3*S <= targetH
+  const S_h = (targetH - TOP_PAD - BOTPAD) / (Math.sqrt(3)*(maxRows+1));
+  const S = Math.max(14, Math.min(S_w, S_h, 60));
+
+  const HEX_W=2*S, HEX_H=Math.sqrt(3)*S, COL_STEP=HEX_W*0.75, ROW_STEP=HEX_H;
+  const canvasH = TOP_PAD + maxRows*ROW_STEP + HEX_H;
+  const canvasW = LEFT_PAD + (numCols-1)*COL_STEP + HEX_W + RIGHTPAD;
+
+  const canvas = document.getElementById("canvas");
+  canvas.style.width = canvasW+"px";
+  canvas.style.height = (canvasH+10)+"px";
+  canvas.innerHTML = "";
+  const fontScale = Math.max(0.55, Math.min(1, S/52));
+
+  let claimed = 0, total = tree.tiles.length;
+
+  columns.forEach((col, ci)=>{
+    const x = LEFT_PAD + ci*COL_STEP;
+    if(col.label){
+      const head = document.createElement("div");
+      head.className = "colhead";
+      head.style.left = x+"px"; head.style.width = (HEX_W*1.4)+"px";
+      head.style.fontSize = (8.5*fontScale)+"px";
+      head.textContent = col.label;
+      head.title = "Click to complete/reset this whole competency";
+      head.onclick = ()=>bulkCluster(currentTree, col.clusterTiles);
+      canvas.appendChild(head);
+    }
+
+    const ids = col.tiles;
+    const offset = (ci % 2 === 1) ? ROW_STEP/2 : 0;
+    ids.forEach((t, ri)=>{
+      const state = getState(currentTree, t);
+      if(state === "have_it_self" || state === "have_it_evidence") claimed++;
+      const sc = STATE_COLORS[state] || STATE_COLORS.gap_known;
+      const y = canvasH - HEX_H - ri*ROW_STEP - offset;
+
+      let dimmed = false;
+      if(mode === "compress" && ri >= ids.length - 1 && ids.length > 2) dimmed = true;
+      if(mode === "blind" && !(t.priority === "single-source" || state === "gap_surfaced_by_tool")) dimmed = true;
+
+      const hex = document.createElement("div");
+      hex.className = "hex" + (dimmed ? " dimmed":"");
+      hex.style.left = x+"px"; hex.style.top = y+"px";
+      hex.style.width = HEX_W+"px"; hex.style.height = HEX_H+"px";
+      hex.style.borderColor = sc.border;
+      hex.style.background = sc.fill;
+      hex.style.color = sc.text;
+      hex.style.borderStyle = sc.dashed ? "dashed":"solid";
+      hex.title = t.source + (t.occ ? (" — "+t.occ+" JD mentions"):"");
+      hex.onclick = ()=>cycle(currentTree, t);
+
+      const label = document.createElement("div");
+      label.className = "hexlabel";
+      const toolLine = document.createElement("div");
+      toolLine.textContent = t.tool;
+      toolLine.style.fontWeight = "700";
+      const outcomeLine = document.createElement("div");
+      outcomeLine.textContent = t.outcome;
+      outcomeLine.style.opacity = "0.85";
+      outcomeLine.style.fontWeight = "400"; outcomeLine.style.fontSize = "0.85em"; outcomeLine.style.marginTop = "2px";
+      label.appendChild(toolLine);
+      label.appendChild(outcomeLine);
+      hex.appendChild(label);
+      label.style.fontSize = (8.5*fontScale)+"px";
+
+      const badge = document.createElement("div");
+      badge.className = "prio-badge";
+      badge.style.fontSize = (7*fontScale)+"px";
+      badge.style.top = (5*fontScale)+"px";
+      badge.style.right = (12*fontScale)+"px";
+      const pc = PRIO_COLOR[t.priority] || "#4a5462";
+      const dotSize = Math.max(3, 5*fontScale);
+      badge.innerHTML = t.priority === "single-source" ? '<span style="color:#ff2e3d">&#33;</span>' : '<span class="dot" style="background:'+pc+';display:inline-block;width:'+dotSize+'px;height:'+dotSize+'px;border-radius:50%;"></span>';
+      hex.appendChild(badge);
+
+      canvas.appendChild(hex);
+    });
+  });
+
+  document.getElementById("scoreN").textContent = claimed+" / "+total;
+}
+
+document.getElementById("btnFull").onclick = ()=>{ mode="full"; setActive("btnFull"); render(); };
+document.getElementById("btnCompress").onclick = ()=>{ mode="compress"; setActive("btnCompress"); render(); };
+document.getElementById("btnBlind").onclick = ()=>{ mode="blind"; setActive("btnBlind"); render(); };
+document.getElementById("btnReset").onclick = ()=>{
+  Object.keys(DATA).forEach(tk=> DATA[tk].tiles.forEach(t=> localStorage.removeItem(storeKey(tk,t.id))));
+  render();
+};
+function setActive(id){
+  ["btnFull","btnCompress","btnBlind"].forEach(b=>document.getElementById(b).classList.toggle("active", b===id));
+}
+
+if(new URLSearchParams(location.search).get("demo") === "1"){
+  Object.keys(DATA).forEach(tk=>{
+    const tiles = DATA[tk].tiles;
+    for(let i=0;i<Math.min(6,tiles.length);i++){
+      setState(tk, tiles[i].id, i%3===0?"have_it_evidence":(i%3===1?"have_it_self":"in_progress"), tiles[i].current_state);
+    }
+  });
+}
+
+window.addEventListener("resize", render);
+render();
+</script>
+</body></html>
