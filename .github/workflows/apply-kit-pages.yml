@@ -1,0 +1,58 @@
+name: Deploy Apply Kit
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: apply-kit-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy /apply-kit to GitHub Pages
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assemble Pages site
+        run: |
+          mkdir -p _site/apply-kit
+          cp -R apply-kit/. _site/apply-kit/
+          cat > _site/index.html <<'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="refresh" content="0; url=apply-kit/" />
+            <title>Apply Kit</title>
+            <link rel="canonical" href="apply-kit/" />
+          </head>
+          <body>
+            <p><a href="apply-kit/">Open Apply Kit</a></p>
+          </body>
+          </html>
+          HTML
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

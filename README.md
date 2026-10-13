@@ -73,6 +73,44 @@ The agent follows [`AGENTS.md`](AGENTS.md) to run the scrapers (`npm run build &
 
 ---
 
+## MVP option B: how to use and share
+
+**Apply Kit** is a static page for Filipino job seekers targeting the EU, Spain, Australia, and remote roles (data engineer, product manager, full stack engineer, civil engineer, metal press technician). It does not call an AI API. It builds a copy-paste prompt for ChatGPT / Claude / Gemini, scores JD keywords in the browser, and keeps an application tracker in `localStorage`.
+
+### Try it in under two minutes
+
+1. Open [`apply-kit/index.html`](apply-kit/index.html) in a browser (double-click the file, or serve the folder). No install, no account.
+2. Click **Load a 2-minute sample**.
+3. Read the keyword score, then **Copy prompt** and paste it into ChatGPT, Claude, or Gemini.
+4. Add a row in **Application tracker**, reload the page — the row is still there. **Export CSV** to send the table to a helper.
+
+Screenshots: [`docs/screenshots/apply-kit-desktop.png`](docs/screenshots/apply-kit-desktop.png), [`docs/screenshots/apply-kit-prompt.png`](docs/screenshots/apply-kit-prompt.png), [`docs/screenshots/apply-kit-mobile.png`](docs/screenshots/apply-kit-mobile.png).
+
+### Share it with someone non-technical
+
+- **Send the folder:** zip `apply-kit/` and ask them to open `index.html`.
+- **GitHub Pages:** on push to `main`, [`.github/workflows/apply-kit-pages.yml`](.github/workflows/apply-kit-pages.yml) deploys the folder to `/apply-kit`. Enable Pages: repo **Settings → Pages → GitHub Actions**. After that, the app is at `https://<user>.github.io/seeker/apply-kit/`.
+- **Share progress, not the CV:** use **Export CSV**. Profile and tracker never leave the browser unless they export.
+
+### What it does
+
+| Step | What happens |
+|---|---|
+| Profile | Role, destination, CV text, optional Seven Petals notes — saved locally |
+| Tailor | Paste a job ad → keyword overlap score + missing keywords (no LLM) |
+| Prompt | Ready-to-copy prompt: tailored CV + cover letter, destination norms (Europass / Spanish CV / Australian resume / remote-async), role tips (PRC, TESDA NC), adapted from `prompts/resume-match.txt`, `prompts/technical-fit.txt`, `prompts/flower-fit.txt` |
+| Tracker | Company, role, link, country, status, date, next step, notes · CSV import/export |
+| Visas | Links to official EU, Spain, Australia, DMW, PRC, TESDA pages. Marked **verify on official site**. Not legal advice. |
+
+### Limitations
+
+- No backend, no accounts, no direct ChatGPT/Claude/Gemini API calls — you copy the prompt yourself.
+- Keyword score is word overlap, not a hiring decision.
+- Visa blurbs are pointers. Always verify on the official URL shown in the app.
+- `localStorage` is per browser/device. Export CSV before clearing site data.
+
+---
+
 ## Current Limitations
 
 The full LLM-scored pipeline described in [`architecture.md`](architecture.md) (title pre-filter → technical fit → aspirational fit → resume match → ranked CSV, all automatic on a cron) is still being built — see [`AGENTS.md`](AGENTS.md) for exact status. Today, the working path is: scrape → filter by `state/preferences.json` → your AI agent sends the shortlist to Telegram, which is enough to replace manually checking job boards.
