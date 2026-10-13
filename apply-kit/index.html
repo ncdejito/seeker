@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apply Kit — Seeker</title>
+  <meta name="description" content="Local-first CV tailoring prompts and application tracker for Filipino job seekers targeting the EU, Spain, Australia, and remote roles." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <div class="brand">
+          <div class="seal" aria-hidden="true">SK</div>
+          <div>
+            <h1>Apply Kit</h1>
+            <p>Seeker · CV prompts + application tracker. Stays on this device.</p>
+          </div>
+        </div>
+        <div class="hero-actions">
+          <button type="button" id="load-sample" class="secondary">Load a 2-minute sample</button>
+          <button type="button" id="clear-data" class="danger">Clear saved data</button>
+        </div>
+      </div>
+      <nav class="jump" aria-label="Sections">
+        <a href="#profile">Profile</a>
+        <a href="#tailor">Tailor a job</a>
+        <a href="#tracker">Tracker</a>
+        <a href="#tips">CV tips</a>
+        <a href="#visas">Official visa pages</a>
+      </nav>
+      <div class="how">
+        <article>
+          <div class="n">Step 1</div>
+          <h2>Paste your CV</h2>
+          <p>Pick a role and destination, then paste the text of your current CV. Nothing is uploaded.</p>
+        </article>
+        <article>
+          <div class="n">Step 2</div>
+          <h2>Paste a job ad</h2>
+          <p>Get a keyword score instantly, then copy a ready prompt into ChatGPT, Claude, or Gemini.</p>
+        </article>
+        <article>
+          <div class="n">Step 3</div>
+          <h2>Track applications</h2>
+          <p>Save company, status, and next step. Export CSV for a helper. Import it back later.</p>
+        </article>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="progress" id="progress" aria-live="polite"></section>
+
+      <div class="grid">
+        <div>
+          <section class="card" id="profile">
+            <h2>Your profile</h2>
+            <p class="lede">Saved in this browser only (localStorage). Use the same computer to come back.</p>
+            <form id="profile-form">
+              <div class="row-2">
+                <div>
+                  <label for="role">Role</label>
+                  <select id="role" name="role" required></select>
+                </div>
+                <div>
+                  <label for="destination">Target destination</label>
+                  <select id="destination" name="destination" required></select>
+                </div>
+              </div>
+              <label for="cv-text">CV text</label>
+              <textarea id="cv-text" class="tall" name="cvText" placeholder="Paste your CV here. Plain text is perfect — copy from Word, Google Docs, or PDF."></textarea>
+              <label for="flower-notes">Optional: what you want in a job (Seven Petals notes)</label>
+              <textarea id="flower-notes" name="flowerNotes" placeholder="Values, city/country, salary floor, remote vs onsite, deal-breakers. Or paste FLOWER_PART1–7 from prompts/flower-exercise.md."></textarea>
+              <div class="btn-row">
+                <button type="submit">Save profile</button>
+              </div>
+              <div class="toast" id="profile-toast" role="status"></div>
+            </form>
+          </section>
+
+          <section class="card tips" id="tips">
+            <h2 id="tips-title">CV bullet tips</h2>
+            <p class="lede" id="tips-lede">Filipino-specific ways to present this role abroad.</p>
+            <ul id="tips-list"></ul>
+            <p class="tiny">These are starter ideas. The copied prompt tells the AI not to invent facts.</p>
+          </section>
+        </div>
+
+        <div>
+          <section class="card" id="tailor">
+            <h2>Tailor this job</h2>
+            <p class="lede">Paste a job description. We score keywords on your device, then build a prompt you paste into any AI chat.</p>
+            <label for="job-description">Job description</label>
+            <textarea id="job-description" class="tall" placeholder="Paste the full job ad, including requirements and location."></textarea>
+            <div class="btn-row">
+              <button type="button" id="score-btn">Score keywords</button>
+              <button type="button" id="build-prompt-btn">Build prompt</button>
+              <button type="button" id="copy-prompt-btn" class="secondary">Copy prompt</button>
+              <button type="button" id="add-from-jd-btn" class="secondary">Add job to tracker</button>
+            </div>
+            <div class="toast" id="tailor-toast" role="status"></div>
+            <div class="score-box" id="score-box" hidden>
+              <div class="score-num" id="score-num">0<span>match</span></div>
+              <div>
+                <p class="tiny" id="score-caption"></p>
+                <div class="kw-lists">
+                  <div>
+                    <h3>In your CV</h3>
+                    <div class="pills" id="matched-pills"></div>
+                  </div>
+                  <div>
+                    <h3>Missing from CV</h3>
+                    <div class="pills" id="missing-pills"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <pre class="prompt-box" id="prompt-box" hidden></pre>
+          </section>
+        </div>
+      </div>
+
+      <section class="card" id="tracker">
+        <h2>Application tracker</h2>
+        <p class="lede">For you or a helper reviewing your hunt. Survives a page reload. Export CSV to share.</p>
+        <form id="app-form">
+          <div class="row-2">
+            <div>
+              <label for="app-company">Company</label>
+              <input id="app-company" name="company" type="text" required placeholder="Iberia Insights" />
+            </div>
+            <div>
+              <label for="app-role">Role</label>
+              <input id="app-role" name="role" type="text" required placeholder="Data engineer" />
+            </div>
+          </div>
+          <div class="row-2">
+            <div>
+              <label for="app-link">Link</label>
+              <input id="app-link" name="link" type="url" placeholder="https://" />
+            </div>
+            <div>
+              <label for="app-country">Country / destination</label>
+              <input id="app-country" name="country" type="text" placeholder="Portugal" />
+            </div>
+          </div>
+          <div class="row-2">
+            <div>
+              <label for="app-status">Status</label>
+              <select id="app-status" name="status"></select>
+            </div>
+            <div>
+              <label for="app-date">Date</label>
+              <input id="app-date" name="date" type="date" />
+            </div>
+          </div>
+          <label for="app-next">Next step</label>
+          <input id="app-next" name="next_step" type="text" placeholder="Send tailored CV by Friday" />
+          <label for="app-notes">Notes</label>
+          <textarea id="app-notes" name="notes" placeholder="Recruiter name, salary, visa notes…"></textarea>
+          <input type="hidden" id="app-id" name="id" />
+          <div class="btn-row">
+            <button type="submit" id="app-save-btn">Add to tracker</button>
+            <button type="button" id="app-reset-btn" class="secondary">Reset form</button>
+            <button type="button" id="export-csv-btn" class="secondary">Export CSV</button>
+            <label class="btn secondary" for="import-csv" style="display:inline-block;">Import CSV</label>
+            <input id="import-csv" type="file" accept=".csv,text/csv" hidden />
+          </div>
+          <div class="toast" id="tracker-toast" role="status"></div>
+        </form>
+        <div style="overflow-x:auto; margin-top: 12px;">
+          <table class="tracker" id="tracker-table">
+            <thead>
+              <tr>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Link</th>
+                <th>Country</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Next step</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tracker-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card" id="visas">
+        <h2>Official visa &amp; credential pages</h2>
+        <div class="banner" role="note">
+          This is not legal advice. Immigration rules change. Verify every step on the official site before you apply, pay an agency, or book travel.
+        </div>
+        <p class="lede" id="visa-lede"></p>
+        <ul class="visa-list" id="visa-list"></ul>
+        <h3 style="font-family:Georgia,serif;margin:18px 0 8px;">Philippine credentials (all roles)</h3>
+        <ul class="visa-list" id="shared-visa-list"></ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Part of <strong>Seeker</strong>. Local-first: profile and tracker never leave this browser unless you export CSV. Open <code>apply-kit/index.html</code> — no account, no backend.</p>
+    </footer>
+  </div>
+  <script src="lib/data.js"></script>
+  <script src="lib/keyword-score.js"></script>
+  <script src="lib/prompt-builder.js"></script>
+  <script src="lib/csv.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
