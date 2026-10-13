@@ -9,3 +9,4 @@ obscura-worker
 *.csv
 state/*
 !state/preferences.example.json
+!state/digest-config.json

@@ -1,0 +1,219 @@
+{
+  "audience": "Filipino job seekers targeting EU / EEA, Spain, Australia, and remote roles",
+  "maxAgeDays": 30,
+  "maxPerRoleDestination": 8,
+  "euresDelayMs": 10000,
+  "roles": [
+    {
+      "id": "data-engineer",
+      "label": "Data Engineer",
+      "keywords": [
+        "data engineer",
+        "data engineering",
+        "analytics engineer",
+        "ingeniero de datos",
+        "ingénieur data",
+        "daten ingenieur",
+        "dateningenieur",
+        "etl engineer",
+        "data platform engineer"
+      ],
+      "excludeKeywords": []
+    },
+    {
+      "id": "product-manager",
+      "label": "Product Manager",
+      "keywords": [
+        "product manager",
+        "product owner",
+        "product lead",
+        "jefe de producto",
+        "responsable de producto",
+        "chef de produit",
+        "produktmanager"
+      ],
+      "excludeKeywords": [
+        "product designer",
+        "product marketing",
+        "product analyst",
+        "product support"
+      ]
+    },
+    {
+      "id": "full-stack-engineer",
+      "label": "Full Stack Engineer",
+      "keywords": [
+        "full stack",
+        "fullstack",
+        "full-stack",
+        "full stack engineer",
+        "full stack developer",
+        "desarrollador full stack",
+        "développeur full stack",
+        "ingeniero full stack"
+      ],
+      "excludeKeywords": []
+    },
+    {
+      "id": "civil-engineer",
+      "label": "Civil Engineer",
+      "keywords": [
+        "civil engineer",
+        "civil engineering",
+        "structural engineer",
+        "ingeniero civil",
+        "ingénieur civil",
+        "bauingenieur",
+        "ingeniero de caminos"
+      ],
+      "excludeKeywords": []
+    },
+    {
+      "id": "metal-press-technician",
+      "label": "Metal Press Technician",
+      "keywords": [
+        "press technician",
+        "press operator",
+        "metal press",
+        "stamping operator",
+        "punch press",
+        "press setter",
+        "prensa metal",
+        "operario de prensa",
+        "prensa hidráulica",
+        "hydraulic press",
+        "metal stamping",
+        "press machinist"
+      ],
+      "excludeKeywords": [
+        "printing press",
+        "bench press",
+        "press release",
+        "press secretary"
+      ]
+    }
+  ],
+  "destinations": [
+    {
+      "id": "spain",
+      "label": "Spain",
+      "countryCodes": ["es"],
+      "locationHints": [
+        "spain",
+        "españa",
+        "espana",
+        "madrid",
+        "barcelona",
+        "valencia",
+        "seville",
+        "sevilla",
+        "bilbao",
+        "malaga",
+        "málaga",
+        "zaragoza",
+        "alicante"
+      ]
+    },
+    {
+      "id": "australia",
+      "label": "Australia",
+      "countryCodes": ["au"],
+      "locationHints": [
+        "australia",
+        "sydney",
+        "melbourne",
+        "brisbane",
+        "perth",
+        "adelaide",
+        "canberra",
+        "hobart",
+        "gold coast",
+        "new south wales",
+        "victoria",
+        "queensland"
+      ]
+    },
+    {
+      "id": "eu",
+      "label": "EU / EEA",
+      "countryCodes": [
+        "at", "be", "bg", "cy", "cz", "de", "dk", "ee", "el", "fi", "fr", "gr",
+        "hr", "hu", "ie", "is", "it", "li", "lt", "lu", "lv", "mt", "nl", "no",
+        "pl", "pt", "ro", "se", "si", "sk", "ch"
+      ],
+      "locationHints": [
+        "europe", "european union", "eu-wide", "germany", "france", "netherlands",
+        "ireland", "sweden", "finland", "portugal", "italy", "belgium", "austria",
+        "denmark", "poland", "czech", "romania", "hungary", "greece", "croatia",
+        "slovakia", "slovenia", "lithuania", "latvia", "estonia", "luxembourg",
+        "malta", "cyprus", "bulgaria", "norway", "iceland", "switzerland",
+        "berlin", "munich", "amsterdam", "dublin", "paris", "lisbon", "rome",
+        "stockholm", "helsinki", "vienna", "brussels", "copenhagen", "warsaw"
+      ]
+    },
+    {
+      "id": "remote",
+      "label": "Remote",
+      "countryCodes": [],
+      "locationHints": [
+        "remote",
+        "worldwide",
+        "anywhere",
+        "work from home",
+        "wfh",
+        "distributed",
+        "work from anywhere"
+      ]
+    }
+  ],
+  "sources": {
+    "eures": { "enabled": true, "resultsPerRole": 12 },
+    "adzunaAu": { "enabled": true, "resultsPerRole": 10 },
+    "remotive": { "enabled": true },
+    "remoteok": { "enabled": true },
+    "weworkremotely": { "enabled": true },
+    "arbeitnow": { "enabled": true }
+  },
+  "officialLinks": [
+    {
+      "label": "EU Blue Card (European Commission)",
+      "url": "https://home-affairs.ec.europa.eu/policies/migration-and-asylum/eu-immigration-portal/eu-blue-card_en",
+      "region": "eu"
+    },
+    {
+      "label": "Working in another EU country — work permits",
+      "url": "https://europa.eu/youreurope/citizens/work/work-abroad/work-permits/index_en.htm",
+      "region": "eu"
+    },
+    {
+      "label": "EURES — living and working in Europe",
+      "url": "https://eures.europa.eu/living-and-working_en",
+      "region": "eu"
+    },
+    {
+      "label": "Spain — consular visa services",
+      "url": "https://www.exteriores.gob.es/en/ServiciosAlCiudadano/Paginas/Servicios-consulares.aspx",
+      "region": "spain"
+    },
+    {
+      "label": "Spanish Embassy in Manila — consular services",
+      "url": "https://www.exteriores.gob.es/Embajadas/manila/en/ServiciosConsulares/Paginas/inicio.aspx",
+      "region": "spain"
+    },
+    {
+      "label": "Australia — visa listing (Department of Home Affairs)",
+      "url": "https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing",
+      "region": "australia"
+    },
+    {
+      "label": "Australia — working in Australia",
+      "url": "https://immi.homeaffairs.gov.au/visas/working-in-australia",
+      "region": "australia"
+    },
+    {
+      "label": "Philippines Department of Migrant Workers (DMW)",
+      "url": "https://dmw.gov.ph/",
+      "region": "ph"
+    }
+  ]
+}
