@@ -7,6 +7,8 @@
     "build": "tsc",
     "start": "node dist/api/server.js",
     "test": "vitest run",
+    "test:site": "node tests/site-data.test.mjs",
+    "screenshot:site": "node scripts/screenshot-job-hub.mjs",
     "pipeline": "node dist/scripts/run-pipeline.js"
   },
   "keywords": [],
