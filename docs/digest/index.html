@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seeker Daily Job Digest — 13 Oct 2026</title>
+  <meta name="description" content="53 recent listings for data engineer, product manager, full stack engineer, civil engineer, metal press technician. For Filipino seekers targeting EU, Spain, Australia, and remote." />
+  <meta property="og:title" content="Seeker Daily Job Digest — 13 Oct 2026" />
+  <meta property="og:description" content="53 recent listings for data engineer, product manager, full stack engineer, civil engineer, metal press technician. For Filipino seekers targeting EU, Spain, Australia, and remote." />
+  <style>
+    :root {
+      --ink: #1c241c;
+      --muted: #5c6758;
+      --paper: #f4efe4;
+      --card: #fffdf8;
+      --line: #ddd4c4;
+      --forest: #1f3d2b;
+      --gold: #c4922a;
+      --remote: #1f6f5b;
+      --visa: #8a4b12;
+      --open: #355f8a;
+      --unknown: #6b6458;
+    }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    header {
+      background: var(--forest);
+      color: #f6f1e6;
+      padding: 1.75rem 1.25rem 1.5rem;
+    }
+    header .wrap, main, footer .wrap { max-width: 980px; margin: 0 auto; }
+    .eyebrow { letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.72rem; color: #d9c48a; margin: 0 0 0.4rem; }
+    h1 { font-family: Georgia, "Source Serif 4", serif; font-weight: 600; font-size: clamp(1.6rem, 4vw, 2.3rem); margin: 0 0 0.4rem; }
+    header p { margin: 0.2rem 0; color: #e6e0d2; }
+    .count { display: inline-block; margin-top: 0.85rem; background: #163022; border: 1px solid #2f5a40; border-radius: 999px; padding: 0.25rem 0.75rem; font-size: 0.9rem; }
+    .notice {
+      background: #fff7d6;
+      border: 1px solid #e2c56a;
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+      margin: 1.25rem auto;
+      max-width: 980px;
+    }
+    .notice strong { color: #6a4b00; }
+    .notice ul { margin: 0.5rem 0 0; padding-left: 1.1rem; }
+    .filters {
+      position: sticky; top: 0; z-index: 5;
+      background: rgba(244,239,228,0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      padding: 0.7rem 1.25rem;
+    }
+    .filters .wrap { display: flex; flex-direction: column; gap: 0.45rem; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 0.35rem 0.8rem;
+      min-height: 40px;
+      font: inherit;
+      cursor: pointer;
+    }
+    .chip[aria-pressed="true"] { background: var(--forest); color: #fff; border-color: var(--forest); }
+    h2 { font-family: Georgia, serif; font-size: 1.55rem; margin: 1.6rem 0 0.4rem; }
+    h2 small, h3 small { color: var(--muted); font-family: inherit; font-weight: 500; font-size: 0.85rem; }
+    h3 { margin: 1rem 0 0.6rem; font-size: 1.05rem; color: var(--forest); }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 0.75rem; }
+    @media (min-width: 720px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 0.9rem 1rem 0.85rem;
+      display: flex; flex-direction: column; gap: 0.35rem;
+    }
+    .card-top { display: flex; justify-content: space-between; gap: 0.5rem; font-size: 0.78rem; color: var(--muted); }
+    .source { font-weight: 600; color: var(--gold); letter-spacing: 0.02em; }
+    .card h4 { margin: 0; font-size: 1.02rem; line-height: 1.35; }
+    .card h4 a { color: inherit; text-decoration: none; }
+    .card h4 a:hover { text-decoration: underline; }
+    .meta { margin: 0; color: var(--muted); font-size: 0.9rem; }
+    .snippet { margin: 0; font-size: 0.88rem; color: #3f473d; flex: 1; }
+    .card-foot { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-top: 0.4rem; }
+    .badge { font-size: 0.72rem; font-weight: 600; border-radius: 999px; padding: 0.2rem 0.55rem; }
+    .badge-remote { background: #e4f4ee; color: var(--remote); }
+    .badge-visa { background: #f7ead8; color: var(--visa); }
+    .badge-open { background: #e4eef7; color: var(--open); }
+    .badge-unknown { background: #eeeae3; color: var(--unknown); }
+    .apply { font-size: 0.85rem; font-weight: 600; color: var(--forest); }
+    .empty-note, .hidden-empty { color: var(--muted); font-size: 0.9rem; }
+    footer { padding: 2rem 1.25rem 3rem; color: var(--muted); font-size: 0.88rem; }
+    footer a { color: var(--forest); }
+    .role.is-hidden, .dest.is-hidden, .card.is-hidden { display: none; }
+    .no-matches { display: none; margin: 1.5rem auto; max-width: 980px; color: var(--muted); }
+    .no-matches.show { display: block; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">Seeker · MVP option C</p>
+      <h1>Daily Job Digest</h1>
+      <p>Filipino job seekers targeting EU / EEA, Spain, Australia, and remote roles</p>
+      <p>Snapshot of 13 Oct 2026 (UTC). Tap a role to apply on the original board.</p>
+      <span class="count">53 listings after filters &amp; dedupe</span>
+    </div>
+  </header>
+
+  <aside class="notice">
+    <strong>Verify on official site.</strong> Visa, work-permit, and remote-eligibility notes on this page are simple keyword heuristics, not legal advice. Always verify on the official site before you apply or book travel.
+    <ul><li><a href="https://home-affairs.ec.europa.eu/policies/migration-and-asylum/eu-immigration-portal/eu-blue-card_en" target="_blank" rel="noopener">EU Blue Card (European Commission)</a></li><li><a href="https://europa.eu/youreurope/citizens/work/work-abroad/work-permits/index_en.htm" target="_blank" rel="noopener">Working in another EU country — work permits</a></li><li><a href="https://eures.europa.eu/living-and-working_en" target="_blank" rel="noopener">EURES — living and working in Europe</a></li><li><a href="https://www.exteriores.gob.es/en/ServiciosAlCiudadano/Paginas/Servicios-consulares.aspx" target="_blank" rel="noopener">Spain — consular visa services</a></li><li><a href="https://www.exteriores.gob.es/Embajadas/manila/en/ServiciosConsulares/Paginas/inicio.aspx" target="_blank" rel="noopener">Spanish Embassy in Manila — consular services</a></li><li><a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing" target="_blank" rel="noopener">Australia — visa listing (Department of Home Affairs)</a></li><li><a href="https://immi.homeaffairs.gov.au/visas/working-in-australia" target="_blank" rel="noopener">Australia — working in Australia</a></li><li><a href="https://dmw.gov.ph/" target="_blank" rel="noopener">Philippines Department of Migrant Workers (DMW)</a></li></ul>
+  </aside>
+
+  <div class="filters">
+    <div class="wrap">
+      <div class="chips" role="group" aria-label="Filter by role">
+        <button type="button" class="chip" data-filter-role="all" aria-pressed="true">All roles</button>
+        <button type="button" class="chip" data-filter-role="data-engineer">Data Engineer</button><button type="button" class="chip" data-filter-role="product-manager">Product Manager</button><button type="button" class="chip" data-filter-role="full-stack-engineer">Full Stack Engineer</button><button type="button" class="chip" data-filter-role="civil-engineer">Civil Engineer</button><button type="button" class="chip" data-filter-role="metal-press-technician">Metal Press Technician</button>
+      </div>
+      <div class="chips" role="group" aria-label="Filter by destination">
+        <button type="button" class="chip" data-filter-dest="all" aria-pressed="true">All destinations</button>
+        <button type="button" class="chip" data-filter-dest="spain">Spain</button><button type="button" class="chip" data-filter-dest="australia">Australia</button><button type="button" class="chip" data-filter-dest="eu">EU / EEA</button><button type="button" class="chip" data-filter-dest="remote">Remote</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <p class="no-matches" id="no-matches">No listings match those filters in this snapshot.</p>
+    <section class="role" id="role-data-engineer" data-role="data-engineer">
+      <h2>Data Engineer <small>10</small></h2>
+      <section class="dest empty" data-destination="spain"><h3>Spain</h3><p class="empty-note">No recent listings in this snapshot.</p></section><section class="dest empty" data-destination="australia"><h3>Australia</h3><p class="empty-note">No recent listings in this snapshot.</p></section><section class="dest" data-destination="eu"><h3>EU / EEA <small>8</small></h3><div class="grid">
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T14:04:32.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.com/jobs/companies/kpler/senior-data-engineer-germany-418300" target="_blank" rel="noopener">Senior Data Engineer</a></h4>
+  <p class="meta">Kpler · Germany</p>
+  <p class="snippet">At Kpler, we are dedicated to helping our clients navigate complex markets with ease. By simplifying global trade information and providing valuable insights, we empower organisations to make informed decisions in…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.com/jobs/companies/kpler/senior-data-engineer-germany-418300" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-06T21:24:13.294Z">2026-10-06</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzgwNjg2Ny1TIDE?lang=en" target="_blank" rel="noopener">Data Engineer (all genders) (Data Engineer)</a></h4>
+  <p class="meta">BORA Lüftungstechnik GmbH · Germany</p>
+  <p class="snippet">Für unseren Standort in Raubling/Oberbayern (bei Rosenheim) suchen wir zur Erweiterung des Teams ab sofort in Vollzeit eine/n: Data Engineer (all genders) Ihre Aufgaben: - Entwicklung, Betrieb und Weiterentwicklung von…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzgwNjg2Ny1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-05T21:24:19.414Z">2026-10-05</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTIyNjUtMzUwMDAyX0pCNTI2NDMyMy1TIDE?lang=en" target="_blank" rel="noopener">Data Engineer (m/w/d) (Data Engineer)</a></h4>
+  <p class="meta">FERCHAU GmbH Niederlassung Osnabrück · Germany</p>
+  <p class="snippet">Technologien auf das nächste Level zu heben, sich Herausforderungen zu stellen und an den Innovationen von morgen zu arbeiten - dafür benötigen wir bei FERCHAU Expert:innen wie dich: als ambitionierte:r Mitarbeitende:r…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTIyNjUtMzUwMDAyX0pCNTI2NDMyMy1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-02T21:20:12.720Z">2026-10-02</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTIyNjUtNDcwMDc3X0pCNTI2MjczMC1TIDE?lang=en" target="_blank" rel="noopener">Data Engineer (m/w/d) (Data Engineer)</a></h4>
+  <p class="meta">FERCHAU GmbH Niederlassung Köln · Germany</p>
+  <p class="snippet">Die besten Köpfe für die unterschiedlichsten Aufgaben zu finden sowie Menschen und Technologien zu verbinden, und zwar täglich aufs Neue - dafür schätzen unsere Kunden FERCHAU. Unterstütze uns: als ambitionierte:r…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTIyNjUtNDcwMDc3X0pCNTI2MjczMC1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-28T20:30:41.455Z">2026-09-28</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTM2MzUtYWMxNGIyYTJfSkI1MjU4NTYzLVMgMQ?lang=en" target="_blank" rel="noopener">Data Engineer (m/w/d) (Data Engineer)</a></h4>
+  <p class="meta">AraCom-Gruppe · Germany</p>
+  <p class="snippet">Starte bei uns durchDu brennst für Daten, moderne Technologien und intelligente Lösungen? Dann unterstütze uns als Data Engineer bei der Entwicklung zukunftsweisender Datenplattformen und datengetriebener…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTM2MzUtYWMxNGIyYTJfSkI1MjU4NTYzLVMgMQ?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-23T20:25:47.860Z">2026-09-23</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTQ4OTMtMDA2NzU5OTMwMi1TIDE?lang=en" target="_blank" rel="noopener">Data Engineer (w/m/d) (Data Engineer)</a></h4>
+  <p class="meta">Agaplesion Management und Beratungsgesellschaft mbH · Germany</p>
+  <p class="snippet">** AGAPLESION auf einen Blick ** Die AGAPLESION gAG zählt zu den größten Gesundheitskonzernen Deutschlands und steht für moderne Medizin, Pflege und gelebte Werte. Im Zentralen Dienst Künstliche Intelligenz gestalten…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTQ4OTMtMDA2NzU5OTMwMi1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-21T20:28:23.230Z">2026-09-21</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzczNTM3OC1TIDE?lang=en" target="_blank" rel="noopener">Data Engineer – Data Warehouse m/w/d (Data Engineer)</a></h4>
+  <p class="meta">Proalpha Group GmbH · Germany</p>
+  <p class="snippet">Als Arbeitgeber sind wir PRO YOU – weil bei uns der Mensch im Mittelpunkt steht. Wir übernehmen Verantwortung füreinander, schaffen kontinuierliche Entwicklungsmöglichkeiten und bieten ein Umfeld, das berufliches und…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzczNTM3OC1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-18T20:25:20.835Z">2026-09-18</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzczMjY4NC1TIDE?lang=en" target="_blank" rel="noopener">Data Engineer (m/w/d) (Data Engineer)</a></h4>
+  <p class="meta">EUROPART Holding GmbH · Germany</p>
+  <p class="snippet">Ihre Aufgaben Als Data Engineer bist du verantwortlich für den Aufbau, die Weiterentwicklung und den zuverlässigen Betrieb moderner Datenplattformen und Datenpipelines. Du stellst sicher, dass Daten aus…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzczMjY4NC1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest" data-destination="remote"><h3>Remote <small>2</small></h3><div class="grid">
+<article class="card" data-role="data-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-13T07:30:48.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/tebra-data-engineer" target="_blank" rel="noopener">Data Engineer</a></h4>
+  <p class="meta">Tebra · Anywhere in the World</p>
+  <p class="snippet">Headquarters: United States - Remote Tebra only initiates contact with candidates via email from an official Tebra email address (@ tebra.com , @ patientpop.com , or @ kareo.com ) or through our applicant tracking…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/tebra-data-engineer" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="data-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-09-15T12:53:09.000Z">2026-09-15</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/toptal-senior-data-engineer-aws-data-lake-pipeline-architecture" target="_blank" rel="noopener">Senior Data Engineer – AWS Data Lake &amp; Pipeline Architecture</a></h4>
+  <p class="meta">Toptal · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Summary We are seeking a Data Engineer to support the development of a Data Intelligence Platform. This role focuses on data modeling, data services, data pipelines, and cloud-based data infrastructure for…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/toptal-senior-data-engineer-aws-data-lake-pipeline-architecture" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section>
+    </section>
+<section class="role" id="role-product-manager" data-role="product-manager">
+      <h2>Product Manager <small>18</small></h2>
+      <section class="dest" data-destination="spain"><h3>Spain <small>1</small></h3><div class="grid">
+<article class="card" data-role="product-manager" data-destination="spain" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-29T21:03:30.886Z">2026-09-29</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/NzQ0OTc3NiAxMDI?lang=en" target="_blank" rel="noopener">PRODUCT MANAGER</a></h4>
+  <p class="meta">See listing · Spain</p>
+  <p class="snippet">LA MISSIÓ DEL/LA PRODUCT MANAGER ÉS ACTUAR COM A PONT ENTRE ELS EQUIPS TèCNICS I L?EQUIP COMERCIAL, DNOANT SUPORT A LES ACTIVITATS DE VENDA AMB MATERIALS PROFESSIONALS I ADAPTATS AL LLENGUATGE DEL CLIENT. AFAVORINT…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/NzQ0OTc3NiAxMDI?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest" data-destination="australia"><h3>Australia <small>1</small></h3><div class="grid">
+<article class="card" data-role="product-manager" data-destination="australia" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Remote OK</span>
+    <time datetime="2026-09-22T00:00:07.000Z">2026-09-22</time>
+  </div>
+  <h4><a href="https://remoteOK.com/remote-jobs/remote-senior-growth-product-manager-ai-native-magic-eden-1137414" target="_blank" rel="noopener">Senior Growth Product Manager AI Native</a></h4>
+  <p class="meta">Magic Eden · Melbourne</p>
+  <p class="snippet">About Magic Eden and Dicey Magic Eden reached unicorn status in just 9 months after launch, one of the fastest in history. We built a category-defining NFT marketplace from scratch and proved we know how to move fast.…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Remote board listing with no country restriction found">Worldwide remote</span>
+    <a class="apply" href="https://remoteOK.com/remote-jobs/remote-senior-growth-product-manager-ai-native-magic-eden-1137414" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest" data-destination="eu"><h3>EU / EEA <small>8</small></h3><div class="grid">
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T14:40:50.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.fr/jobs/companies/solteo/product-manager-cdi-paris-88582" target="_blank" rel="noopener">Product Manager - CDI</a></h4>
+  <p class="meta">Solteo · Paris</p>
+  <p class="snippet">Qui sommes-nous ? Notre mission Avec Solteo, nous voulons donner toutes ses chances à l&#39;électrification des bâtiments en soutenant ceux qui sont en première ligne : les entreprises d’installation. ⚡ Produire son…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.fr/jobs/companies/solteo/product-manager-cdi-paris-88582" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T14:40:48.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.fr/jobs/companies/pelico/lead-product-manager-paris-25444" target="_blank" rel="noopener">Lead Product Manager</a></h4>
+  <p class="meta">Pelico · Paris</p>
+  <p class="snippet">About Pelico Traditional industrial manufacturing systems were built for predictability. Supply chains no longer are. Today, real-time data is buried in legacy tools that weren&#39;t designed for constant disruption. By the…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://www.arbeitnow.fr/jobs/companies/pelico/lead-product-manager-paris-25444" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T12:01:17.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.com/jobs/companies/ubitricity-gesellschaft-fur-verteilte-energiesysteme-mbh/product-manager-ev-charging-all-genders-berlin-130060" target="_blank" rel="noopener">Product Manager - EV Charging (all genders)</a></h4>
+  <p class="meta">ubitricity - Gesellschaft für verteilte Energiesysteme mbH · Berlin</p>
+  <p class="snippet">Your Mission The transport revolution is on the horizon, presenting significant challenges and opportunities in the mobility sector. We&#39;re focused on delivering the right charge points at the right time and place. As…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://www.arbeitnow.com/jobs/companies/ubitricity-gesellschaft-fur-verteilte-energiesysteme-mbh/product-manager-ev-charging-all-genders-berlin-130060" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T09:55:11.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.nl/jobs/companies/tavily/senior-product-manager-vertical-search-amsterdam-145146" target="_blank" rel="noopener">Senior Product Manager, Vertical Search</a></h4>
+  <p class="meta">Tavily · Amsterdam</p>
+  <p class="snippet">The role Tavily, part of Nebius, is the web access layer for AI agents. Over two million developers use us, and our customers include Fortune 500 companies running agents in production. Vertical search is where we…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.nl/jobs/companies/tavily/senior-product-manager-vertical-search-amsterdam-145146" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T09:55:11.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.nl/jobs/companies/tavily/senior-product-manager-search-infrastructure-amsterdam-207609" target="_blank" rel="noopener">Senior Product Manager, Search Infrastructure</a></h4>
+  <p class="meta">Tavily · Amsterdam</p>
+  <p class="snippet">The role Tavily, part of Nebius, is the web access layer for AI agents. Over two million developers use us, and our customers include Fortune 500 companies running agents in production. We build and run our own index.…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.nl/jobs/companies/tavily/senior-product-manager-search-infrastructure-amsterdam-207609" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="open-to-non-eu">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T05:40:57.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.nl/jobs/companies/maze/senior-product-manager-panel-remote-eu-uk-netherlands-212014" target="_blank" rel="noopener">Senior Product Manager, Panel (Remote, EU/UK)</a></h4>
+  <p class="meta">Maze · Netherlands</p>
+  <p class="snippet">About Maze Maze is the user research platform that helps companies build the right products faster by making user insights available at the speed of product development. In most companies, research demand far exceeds…</p>
+  <div class="card-foot">
+    <span class="badge badge-open" title="Listing mentions non-EU / worldwide candidates">Open to non-EU (heuristic)</span>
+    <a class="apply" href="https://www.arbeitnow.nl/jobs/companies/maze/senior-product-manager-panel-remote-eu-uk-netherlands-212014" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-07T11:47:00.406Z">2026-10-07</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/NjMyNzM2MCAxMjE?lang=en" target="_blank" rel="noopener">Product Manager</a></h4>
+  <p class="meta">Recopart AB · Sweden</p>
+  <p class="snippet">Recopart Recopart utvecklar och driftar ett heltäckande verksamhetssystem för återföring av begagnade bildelar till verkstäder och konsument. Det betyder att vi kopplar ihop försäkringsbolag, demonterare och verkstäder…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/NjMyNzM2MCAxMjE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-01T22:02:50.516Z">2026-10-01</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/YTIxY2U2ZTMtZmM3Zi00OGQ4LTlmZTYtMGY1OWNhZTZkMjcwIDI2MQ?lang=en" target="_blank" rel="noopener">Product Manager</a></h4>
+  <p class="meta">SIX ROBOTICS AS · Norway</p>
+  <p class="snippet">About Six Robotics At Six Robotics, we build intelligent software that gives Unmanned Aerial Vehicles (UAVs) the ability to collaborate, adapt on the fly, and execute missions that were previously impossible. From our…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/YTIxY2U2ZTMtZmM3Zi00OGQ4LTlmZTYtMGY1OWNhZTZkMjcwIDI2MQ?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest" data-destination="remote"><h3>Remote <small>8</small></h3><div class="grid">
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T14:01:10.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.com/jobs/companies/protofy-gmbh-co-kg/senior-product-owner-hamburg-79879" target="_blank" rel="noopener">Senior Product Owner</a></h4>
+  <p class="meta">Protofy GmbH &amp; Co. KG · Hamburg</p>
+  <p class="snippet">Deine typische Woche Du bist als Product Owner verantwortlich für 1-3 Projekte und bist dabei in enger Abstimmung mit unseren Kund*innen, um Anforderungen in User Stories zu überführen und mit dem Team zu besprechen Du…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Remote board listing with no country restriction found">Worldwide remote</span>
+    <a class="apply" href="https://www.arbeitnow.com/jobs/companies/protofy-gmbh-co-kg/senior-product-owner-hamburg-79879" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T12:09:35.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.nl/jobs/companies/vivid/remote-senior-product-manager-77656" target="_blank" rel="noopener">Senior Product Manager</a></h4>
+  <p class="meta">Vivid · Remote</p>
+  <p class="snippet">About The Role We&#39;re looking for a Senior Product Manager with real technical depth and an AI-first way of working . You&#39;ll own a product area end to end: finding problems worth solving, shaping the solution, taking it…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Remote board listing with no country restriction found">Worldwide remote</span>
+    <a class="apply" href="https://www.arbeitnow.nl/jobs/companies/vivid/remote-senior-product-manager-77656" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-13T07:31:00.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/oportun-principal-product-manager-savings-r13997" target="_blank" rel="noopener">Principal Product Manager, Savings (R13997)</a></h4>
+  <p class="meta">Oportun · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Remote - US Who We Are Oportun (Nasdaq: OPRT) is a mission-driven financial services company that puts its members&#39; financial goals within reach. With intelligent borrowing, savings, and budgeting…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/oportun-principal-product-manager-savings-r13997" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-12T15:01:11.000Z">2026-10-12</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/toptal-agile-product-manager" target="_blank" rel="noopener">Agile Product Manager</a></h4>
+  <p class="meta">Toptal · Anywhere in the World</p>
+  <p class="snippet">Headquarters: We&#39;re looking for a Product Manager to own roadmap, prioritization, and delivery for a digital product initiative, operating within Agile/Scrum frameworks. The role sits at the intersection of business…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/toptal-agile-product-manager" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-07T07:31:00.000Z">2026-10-07</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/expel-product-manager-detection-pipeline" target="_blank" rel="noopener">Product Manager, Detection Pipeline</a></h4>
+  <p class="meta">Expel · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Remote You live at the intersection of security and product management, and there&#39;s no place you&#39;d rather be. You understand that the detection pipeline isn&#39;t just plumbing. It&#39;s the connective tissue that…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/expel-product-manager-detection-pipeline" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-06T07:31:00.000Z">2026-10-06</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/wrike-group-product-manager-klaxoon" target="_blank" rel="noopener">Group Product Manager [Klaxoon]</a></h4>
+  <p class="meta">Wrike · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Poland - Remote Wrike is the most powerful work management platform. Built for teams and organizations looking to collaborate, create, and exceed every day, Wrike brings everyone and all work into a single…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/wrike-group-product-manager-klaxoon" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-04T07:31:27.000Z">2026-10-04</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/smartsheet-group-product-manager-corporate-systems" target="_blank" rel="noopener">Group Product Manager – Corporate Systems</a></h4>
+  <p class="meta">Smartsheet · Anywhere in the World</p>
+  <p class="snippet">Headquarters: -REMOTE, USA- For over 20 years, Smartsheet has empowered teams to manage work seamlessly and scale solutions smarter. Now, in our most ambitious chapter yet, we are uniting human teams with AI agents. By…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/smartsheet-group-product-manager-corporate-systems" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="product-manager" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-03T07:31:07.000Z">2026-10-03</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/6sense-product-lead-predictive-platform" target="_blank" rel="noopener">Product Lead, Predictive Platform</a></h4>
+  <p class="meta">6sense · Anywhere in the World</p>
+  <p class="snippet">Headquarters: United States, Remote Our Mission: 6sense&#39;s mission is to multiply what matters: growth, retention, and efficiency. We envision a future where companies, teams and people reach their full potential. Our…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/6sense-product-lead-predictive-platform" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section>
+    </section>
+<section class="role" id="role-full-stack-engineer" data-role="full-stack-engineer">
+      <h2>Full Stack Engineer <small>16</small></h2>
+      <section class="dest empty" data-destination="spain"><h3>Spain</h3><p class="empty-note">No recent listings in this snapshot.</p></section><section class="dest" data-destination="australia"><h3>Australia <small>1</small></h3><div class="grid">
+<article class="card" data-role="full-stack-engineer" data-destination="australia" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Remotive</span>
+    <time datetime="2026-10-05T05:15:43.000Z">2026-10-05</time>
+  </div>
+  <h4><a href="https://remotive.com/remote-jobs/software-development/software-engineer-ai-code-trainer-python-web-full-stack-2091149" target="_blank" rel="noopener">Software Engineer / AI Code Trainer (Python, Web, Full Stack)</a></h4>
+  <p class="meta">CodeForAI · USA, UK, India, Australia, Ireland, New Zealand, Philippines, Pakistan, Singapore, Mexico</p>
+  <p class="snippet">Who Should Apply We are looking for developers from all technical backgrounds and language specializations. If you write clean code and understand software design, you are a fit: Software Engineers &amp; Computer Scientists…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Remote board listing with no country restriction found">Worldwide remote</span>
+    <a class="apply" href="https://remotive.com/remote-jobs/software-development/software-engineer-ai-code-trainer-python-web-full-stack-2091149" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest" data-destination="eu"><h3>EU / EEA <small>8</small></h3><div class="grid">
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T14:40:50.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.fr/jobs/companies/solteo/senior-software-engineer-full-stack-cdi-paris-300688" target="_blank" rel="noopener">Senior Software Engineer Full-stack - CDI</a></h4>
+  <p class="meta">Solteo · Paris</p>
+  <p class="snippet">Qui sommes-nous ? Notre mission Avec Solteo, nous voulons donner toutes ses chances à l&#39;électrification des bâtiments en soutenant ceux qui sont en première ligne : les entreprises d’installation. ⚡ Produire son…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.fr/jobs/companies/solteo/senior-software-engineer-full-stack-cdi-paris-300688" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T14:09:54.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.com/jobs/companies/liveeo-gmbh/senior-full-stack-engineer-liveeo-gmbh-berlin-office-hybrid-435139" target="_blank" rel="noopener">Senior Full Stack Engineer (f/m/x)</a></h4>
+  <p class="meta">LiveEO GmbH · LiveEO GmbH Berlin Office (Hybrid)</p>
+  <p class="snippet">Build the Market Leader in Satellite Analytics with us at LiveEO We are looking for a Senior Full Stack Engineer to help shape the next stage of SurfaceScout, one of LiveEO&#39;s core products. SurfaceScout turns satellite…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.com/jobs/companies/liveeo-gmbh/senior-full-stack-engineer-liveeo-gmbh-berlin-office-hybrid-435139" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T12:55:08.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.nl/jobs/companies/doctolib/software-engineer-intern-fullstack-amsterdam-207152" target="_blank" rel="noopener">Software Engineer Intern - Fullstack (x/f/m) - Amsterdam</a></h4>
+  <p class="meta">Doctolib · Amsterdam</p>
+  <p class="snippet">Software Engineering Intern - Fullstack (x/f/m) Set a new pulse for healthcare! We are looking for a Software Engineering Intern to join the Engineering team. Your mission will be to build innovative products and…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.nl/jobs/companies/doctolib/software-engineer-intern-fullstack-amsterdam-207152" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">Arbeitnow</span>
+    <time datetime="2026-10-13T11:40:43.000Z">2026-10-13</time>
+  </div>
+  <h4><a href="https://www.arbeitnow.fr/jobs/companies/lemrock/full-stack-software-engineer-contract-paris-129905" target="_blank" rel="noopener">Full-stack Software Engineer (Contract)</a></h4>
+  <p class="meta">Lemrock · Paris</p>
+  <p class="snippet">Who we are Lemrock builds the infrastructure of agentic commerce. Tomorrow, consumers won&#39;t just buy on e-commerce websites. They will discover, compare and purchase directly inside conversational AI interfaces like…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://www.arbeitnow.fr/jobs/companies/lemrock/full-stack-software-engineer-contract-paris-129905" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-12T19:45:02.657Z">2026-10-12</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTczODUwMjYgNDM?lang=en" target="_blank" rel="noopener">FULL STACK ENTWICKLER_IN - 272637</a></h4>
+  <p class="meta">siehe Beschreibung · Austria</p>
+  <p class="snippet">Willkommen bei Österreichs führendem Anbieter technischer Dienstleistungen! Mit dem gebündelten Know-how von rund 500 IT-ExpertInnen und Engineering-SpezialistInnen entwickeln wir seit über 50 Jahren Lösungen für…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTczODUwMjYgNDM?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-09T19:45:02.261Z">2026-10-09</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTczODMzNjEgNDM?lang=en" target="_blank" rel="noopener">Full - Stack Softwareentwickler (C#, Angular)</a></h4>
+  <p class="meta">SERVUS Intralogistics · Austria</p>
+  <p class="snippet">Bei Servus zu arbeiten, bedeutet ein Teil von zukunftsweisender Technologie zu sein. Mit deinem besonderen Engagement leistest du einen wesentlichen Beitrag bei der Entwicklung und Realisierung effizienter und…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTczODMzNjEgNDM?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-06T19:45:03.779Z">2026-10-06</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTczNzg2NTIgNDM?lang=en" target="_blank" rel="noopener">Full-Stack-Softwareentwickler:in -  Automotive</a></h4>
+  <p class="meta">siehe Beschreibung · Austria</p>
+  <p class="snippet">Adecco Die Adecco Group betreibt Filialen in 60 Ländern. Insgesamt über 33 000 Adecco-Mitarbeitende haben ein gemeinsames Ziel: die Arbeitswelt verändern - mit Menschen, die ihren Beruf lieben 1…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTczNzg2NTIgNDM?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-05T20:33:45.506Z">2026-10-05</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzc5MzY1Mi1TIDE?lang=en" target="_blank" rel="noopener">Full-Stack-Softwareentwicklerin / Full-Stack-Softwareentwickler (m/w/d) (Informatiker/in)</a></h4>
+  <p class="meta">Helmut-Schmidt-Universität Universität der Bundeswehr Personaldezernat · Germany</p>
+  <p class="snippet">An der Helmut-Schmidt-Universität / Universität der Bundeswehr Hamburg (HSU/UniBw H) ist in der Universitätsbibliothek ab dem01.01.2027 die Stelle einer/eines Full-Stack-Softwareentwicklerin /…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDEtMTAwMzc5MzY1Mi1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest" data-destination="remote"><h3>Remote <small>7</small></h3><div class="grid">
+<article class="card" data-role="full-stack-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-12T13:52:56.000Z">2026-10-12</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/toptal-full-stack-e-commerce-developer-with-sage-x3-experience" target="_blank" rel="noopener">Full-Stack E-commerce Developer with Sage X3 Experience</a></h4>
+  <p class="meta">Toptal · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Summary We are seeking a Full-Stack Developer to build or customize a dealer e-commerce platform connected to an existing Sage X3 ERP environment. The role is focused on selecting the right e-commerce…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/toptal-full-stack-e-commerce-developer-with-sage-x3-experience" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-10-10T07:31:08.000Z">2026-10-10</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/typeform-full-stack-developer" target="_blank" rel="noopener">Full Stack Developer</a></h4>
+  <p class="meta">Typeform · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Germany (Remote) ; Ireland (Remote); Netherlands (Remote) ; Portugal (Remote) ; Spain (Remote) ; United Kingdom (Remote) Who we are Typeform is a refreshingly different form builder. We help over 150,000…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/typeform-full-stack-developer" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Remote OK</span>
+    <time datetime="2026-10-09T13:09:18.000Z">2026-10-09</time>
+  </div>
+  <h4><a href="https://remoteOK.com/remote-jobs/remote-senior-react-full-stack-developer-lemon-io-1137475" target="_blank" rel="noopener">Senior React Full stack Developer</a></h4>
+  <p class="meta">Lemon.io · Remote</p>
+  <p class="snippet">Are you a talented Senior Developer looking for a remote job that lets you show your skills and get decent compensation? Look no further than Lemon.io â the marketplace that connects you with hand-picked startups in…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Remote board listing with no country restriction found">Worldwide remote</span>
+    <a class="apply" href="https://remoteOK.com/remote-jobs/remote-senior-react-full-stack-developer-lemon-io-1137475" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-09-29T19:13:52.000Z">2026-09-29</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/bondex-fullstack-web3-engineer-solidity-rust-typescript" target="_blank" rel="noopener">Fullstack Web3 Engineer (Solidity / Rust / Typescript)</a></h4>
+  <p class="meta">bondex · Remote - Americas</p>
+  <p class="snippet">Headquarters: Remote - Americas, El Salvador URL: http://bondex.app We&#39;re recruiting a Web 3 Fullstack Developer (Solidity / Rust / Typescript) who is looking for a new challenge and ready to join an exciting new…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Remote board listing with no country restriction found">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/bondex-fullstack-web3-engineer-solidity-rust-typescript" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-09-21T10:14:35.000Z">2026-09-21</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/adventure-travel-365-senior-full-stack-developer-marketplace-web-mobile-platform" target="_blank" rel="noopener">Senior Full-Stack Developer - Marketplace Web &amp; Mobile Platform</a></h4>
+  <p class="meta">Adventure Travel 365 · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Phoenix, Arizona URL: https://adventuretravel365.com/ Senior Full-Stack Developer - Marketplace Web &amp; Mobile Platform We have a big idea, and we’re looking for a top-notch Senior Full-Stack Developer to…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/adventure-travel-365-senior-full-stack-developer-marketplace-web-mobile-platform" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">We Work Remotely</span>
+    <time datetime="2026-09-15T08:51:45.000Z">2026-09-15</time>
+  </div>
+  <h4><a href="https://weworkremotely.com/remote-jobs/proxify-ab-senior-fullstack-developer-react-js-node-js-4" target="_blank" rel="noopener">Senior Fullstack Developer (React.js / Node.js)</a></h4>
+  <p class="meta">Proxify AB · Anywhere in the World</p>
+  <p class="snippet">Headquarters: Sweden URL: http://career.proxify.io The Role: We are looking for a Senior Fullstack Developer skilled in React.js and Node.js for one of our clients. You are a perfect candidate if you are…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Listing text points to worldwide / anywhere remote">Worldwide remote</span>
+    <a class="apply" href="https://weworkremotely.com/remote-jobs/proxify-ab-senior-fullstack-developer-react-js-node-js-4" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="full-stack-engineer" data-destination="remote" data-eligibility="worldwide-remote">
+  <div class="card-top">
+    <span class="source">Remotive</span>
+    <time datetime="2026-09-14T20:33:27.000Z">2026-09-14</time>
+  </div>
+  <h4><a href="https://remotive.com/remote-jobs/software-development/tech-lead-full-stack-rails-engineer-2069746" target="_blank" rel="noopener">Tech Lead Full-Stack Rails Engineer</a></h4>
+  <p class="meta">Mitre Media · USA, Canada, USA timezones</p>
+  <p class="snippet">About Mitre Media Mitre Media is redefining FinTech with AI-driven tools that empower millions of investors. Our portfolio, including Dividend.com and MutualFunds.com, leverages LLMs to deliver novel data insights and…</p>
+  <div class="card-foot">
+    <span class="badge badge-remote" title="Remote board listing with no country restriction found">Worldwide remote</span>
+    <a class="apply" href="https://remotive.com/remote-jobs/software-development/tech-lead-full-stack-rails-engineer-2069746" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section>
+    </section>
+<section class="role" id="role-civil-engineer" data-role="civil-engineer">
+      <h2>Civil Engineer <small>7</small></h2>
+      <section class="dest empty" data-destination="spain"><h3>Spain</h3><p class="empty-note">No recent listings in this snapshot.</p></section><section class="dest empty" data-destination="australia"><h3>Australia</h3><p class="empty-note">No recent listings in this snapshot.</p></section><section class="dest" data-destination="eu"><h3>EU / EEA <small>7</small></h3><div class="grid">
+<article class="card" data-role="civil-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-06T20:27:40.846Z">2026-10-06</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTIyODgtNDk1NTYzMjc4My1TIDE?lang=en" target="_blank" rel="noopener">Civil Engineer Industrial Plant Construction (m/w/d) (Ingenieur/in - Konstruktiver Ingenieurbau)</a></h4>
+  <p class="meta">RLE INTERNATIONAL Group · Germany</p>
+  <p class="snippet">Über Uns Als einer der führenden Spezialisten für Engineering-, Technologie- und Beratungsdienstleistungen gehört die RLE INTERNATIONAL Gruppe zu den weltweit anerkannten Entwicklungspartnern der internationalen…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTIyODgtNDk1NTYzMjc4My1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="civil-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-05T10:55:00.422Z">2026-10-05</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/NDU2Njc2IDEwMQ?lang=en" target="_blank" rel="noopener">CIVIL ENGINEER</a></h4>
+  <p class="meta">EOR ISTANBUL CONSTRUCTION · Malta</p>
+  <p class="snippet">We are seeking a Civil Engineer to support construction and structural works, ensuring accurate assembly, quality, and compliance with technical requirements.</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/NDU2Njc2IDEwMQ?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="civil-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-03T10:40:00.917Z">2026-10-03</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/NDU2NjkzIDEwMQ?lang=en" target="_blank" rel="noopener">CIVIL ENGINEER</a></h4>
+  <p class="meta">EOR RABAT CONSTRUCTION LIMITED · Malta</p>
+  <p class="snippet">We are seeking to recruit a Civil Engineer within our business.</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/NDU2NjkzIDEwMQ?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="civil-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-02T10:45:00.697Z">2026-10-02</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/NDU2Njg0IDEwMQ?lang=en" target="_blank" rel="noopener">CIVIL ENGINEER</a></h4>
+  <p class="meta">EOR MALTA CONSTRUCTION LTD · Malta</p>
+  <p class="snippet">Civil Engineer to oversee execution on-site is required to join our team on full time basis with contract arrangements.</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/NDU2Njg0IDEwMQ?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="civil-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-30T21:34:10.071Z">2026-09-30</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDAtMTIwODA5NTY5MS1TIDE?lang=en" target="_blank" rel="noopener">CIVIL ENGINEER/ Sachbearbearbeiter/BAUINGENIEUR/IN (M/W/D) (Bauleiter/in)</a></h4>
+  <p class="meta">Dienststellen u. Einrichtungen d.Stationierungsstreitkräfte in Wiesbaden · Germany</p>
+  <p class="snippet">Allgemeine Informationen: Civilian Human Resources Agency / US-Army / US-Armee / US-Streitkräfte Kontaktdaten: Civilian Human Resources Agency / US-Army / US-Armee / US-Streitkräfte…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MTAwMDAtMTIwODA5NTY5MS1TIDE?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="civil-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-30T07:16:13.499Z">2026-09-30</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/ZGIxYjFjMmItZjY2YS00OTM3LWE4MDYtZWY1NDk1MGM5YTdkIDM?lang=en" target="_blank" rel="noopener">Civil Engineer</a></h4>
+  <p class="meta">HIVE Consultancy · Belgium</p>
+  <p class="snippet">Voor onze klant, gelegen in de Haven van Antwerpen en actief in de internationale logistieke sector, zijn wij op zoek naar een Civil Engineer. Je treedt op als technisch aanspreekpunt en adviseur voor de civiele…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/ZGIxYjFjMmItZjY2YS00OTM3LWE4MDYtZWY1NDk1MGM5YTdkIDM?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article>
+<article class="card" data-role="civil-engineer" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-29T11:12:53.913Z">2026-09-29</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/MzUwNjY4MDA3NzEgNg?lang=en" target="_blank" rel="noopener">Structural and Civil Engineer, Stavební inženýři ve výzkumu a vývoji</a></h4>
+  <p class="meta">Aon Central and Eastern Europe a.s. · Czechia</p>
+  <p class="snippet">Structural and Civil Engineer, Stavební inženýři ve výzkumu a vývoji</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/MzUwNjY4MDA3NzEgNg?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest empty" data-destination="remote"><h3>Remote</h3><p class="empty-note">No recent listings in this snapshot.</p></section>
+    </section>
+<section class="role" id="role-metal-press-technician" data-role="metal-press-technician">
+      <h2>Metal Press Technician <small>2</small></h2>
+      <section class="dest" data-destination="spain"><h3>Spain <small>1</small></h3><div class="grid">
+<article class="card" data-role="metal-press-technician" data-destination="spain" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-09-16T20:00:13.364Z">2026-09-16</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/NzQ0MjA0MSAxMDI?lang=en" target="_blank" rel="noopener">FORJADORES-ESTAMPADORES EN PRENSA (METALES)</a></h4>
+  <p class="meta">See listing · Spain</p>
+  <p class="snippet">FUNCIONES: MONTAJE DE MATRICES. FABRICACIÓN DE PIEZAS. TRABAJOS CON MAQUINARIA AUXILIAR, COMO ROSCADORA, AVELLANADORA, ETC. CONDICIONES DE TRABAJO: HORARIO INTENSIVO DE MAÑANA/TARDE SEGÚN NECESIDADES. NÓMINA SEGÚN…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/NzQ0MjA0MSAxMDI?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest empty" data-destination="australia"><h3>Australia</h3><p class="empty-note">No recent listings in this snapshot.</p></section><section class="dest" data-destination="eu"><h3>EU / EEA <small>1</small></h3><div class="grid">
+<article class="card" data-role="metal-press-technician" data-destination="eu" data-eligibility="unknown">
+  <div class="card-top">
+    <span class="source">EURES</span>
+    <time datetime="2026-10-09T01:12:54.491Z">2026-10-09</time>
+  </div>
+  <h4><a href="https://europa.eu/eures/portal/jv-se/jv-details/NWQ2MDkyNmUtNmI2OS1iZGZlLWUwNjMtNjg5M2IyMGEzOWY5IDQy?lang=en" target="_blank" rel="noopener">Extrusion Press Operator</a></h4>
+  <p class="meta">See listing · Netherlands</p>
+  <p class="snippet">Extrusion Press Operator Twee ploegendienst Mifa is onderdeel van een team dat het verschil maakt. Met onze precisie extrusie is namelijk niets onmogelijk. We produceren profielen die levens redden, die vliegtuigen…</p>
+  <div class="card-foot">
+    <span class="badge badge-unknown" title="No visa/remote-eligibility keywords found — verify on the official listing">Verify eligibility</span>
+    <a class="apply" href="https://europa.eu/eures/portal/jv-se/jv-details/NWQ2MDkyNmUtNmI2OS1iZGZlLWUwNjMtNjg5M2IyMGEzOWY5IDQy?lang=en" target="_blank" rel="noopener">Open listing</a>
+  </div>
+</article></div></section><section class="dest empty" data-destination="remote"><h3>Remote</h3><p class="empty-note">No recent listings in this snapshot.</p></section>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>Sources this run: remotive (16) · remoteok (99) · weworkremotely (133) · arbeitnow (300) · adzunaAu (0) · eures (99).</p>
+      <p>Remote listings include attribution as required by each board:
+        <a href="https://remotive.com" target="_blank" rel="noopener">Remotive</a>,
+        <a href="https://remoteok.com" target="_blank" rel="noopener">Remote OK</a>,
+        <a href="https://weworkremotely.com" target="_blank" rel="noopener">We Work Remotely</a>,
+        and <a href="https://www.arbeitnow.com" target="_blank" rel="noopener">Arbeitnow</a>.
+        EU/Spain listings come from the public <a href="https://europa.eu/eures" target="_blank" rel="noopener">EURES</a> search API.
+        Australia listings come from the <a href="https://developer.adzuna.com" target="_blank" rel="noopener">Adzuna AU</a> API when keys are present.</p>
+      <p>Generated by <a href="https://github.com/ncdejito/seeker">ncdejito/seeker</a>. Heuristic badges only — not a visa assessment.</p>
+    </div>
+  </footer>
+  <script>
+    const roleBtns = [...document.querySelectorAll("[data-filter-role]")];
+    const destBtns = [...document.querySelectorAll("[data-filter-dest]")];
+    const params = new URLSearchParams(location.search);
+    let role = params.get("role") || "all";
+    let dest = params.get("dest") || "all";
+    function apply() {
+      document.querySelectorAll(".card").forEach((card) => {
+        const okRole = role === "all" || card.dataset.role === role;
+        const okDest = dest === "all" || card.dataset.destination === dest;
+        card.classList.toggle("is-hidden", !(okRole && okDest));
+      });
+      document.querySelectorAll(".dest").forEach((section) => {
+        const visible = [...section.querySelectorAll(".card")].some((c) => !c.classList.contains("is-hidden"));
+        const destOk = dest === "all" || section.dataset.destination === dest;
+        section.classList.toggle("is-hidden", !destOk || !visible);
+      });
+      document.querySelectorAll(".role").forEach((section) => {
+        const roleOk = role === "all" || section.dataset.role === role;
+        const visible = [...section.querySelectorAll(".card")].some((c) => !c.classList.contains("is-hidden"));
+        section.classList.toggle("is-hidden", !roleOk || !visible);
+      });
+      const any = [...document.querySelectorAll(".card")].some((c) => !c.classList.contains("is-hidden"));
+      document.getElementById("no-matches").classList.toggle("show", !any);
+    }
+    function syncChips() {
+      roleBtns.forEach((b) => b.setAttribute("aria-pressed", String((b.getAttribute("data-filter-role") || "all") === role)));
+      destBtns.forEach((b) => b.setAttribute("aria-pressed", String((b.getAttribute("data-filter-dest") || "all") === dest)));
+    }
+    roleBtns.forEach((btn) => btn.addEventListener("click", () => {
+      role = btn.getAttribute("data-filter-role") || "all";
+      syncChips();
+      apply();
+    }));
+    destBtns.forEach((btn) => btn.addEventListener("click", () => {
+      dest = btn.getAttribute("data-filter-dest") || "all";
+      syncChips();
+      apply();
+    }));
+    syncChips();
+    apply();
+  </script>
+</body>
+</html>

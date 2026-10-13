@@ -53,6 +53,58 @@ The agent follows [`AGENTS.md`](AGENTS.md) to run the scrapers (`npm run build &
 
 ---
 
+## MVP option C: how to use and share
+
+A shareable **Daily Job Digest** for Filipino seekers targeting, in priority, **EU / EEA, Spain, Australia, and remote** roles. It covers five titles: data engineer, product manager, full stack engineer, civil engineer, and metal press technician.
+
+No account, no paid API, and no LLM scoring. One command refreshes a static page you can send in Messenger, WhatsApp, or Telegram.
+
+### Try it in under 2 minutes
+
+1. Open the latest snapshot: [`docs/digest/index.html`](docs/digest/index.html) (download the file and open it in a browser), or the GitHub Pages URL once Pages is enabled: `https://ncdejito.github.io/seeker/`
+2. Filter by role and destination. Each card links out to the original listing (EURES, Remotive, Remote OK, We Work Remotely, Arbeitnow, Adzuna AU).
+3. Read the yellow **Verify on official site** box before treating any badge as a visa answer.
+
+### Generate a fresh digest
+
+```bash
+npm run digest
+```
+
+That builds the TypeScript and writes:
+
+- `docs/digest/index.html` — mobile-friendly page, grouped by role then destination
+- `docs/digest/digest.json` — the same data as JSON
+
+Optional environment variables (all skip cleanly when missing):
+
+| Variable | Effect |
+|---|---|
+| `ADZUNA_APP_ID` + `ADZUNA_APP_KEY` | Include Australia listings via the existing Adzuna AU API |
+| `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` | Send a short summary through the existing Telegram helper |
+| `DIGEST_PUBLIC_URL` | Link included in the Telegram message (defaults to the GitHub Pages URL) |
+
+Roles, keywords, destinations, and official visa URLs live in [`state/digest-config.json`](state/digest-config.json).
+
+### Share
+
+- Send the GitHub Pages link once the daily workflow has published it
+- Or send `docs/digest/index.html` as a file — it is self-contained (CSS and filters inlined)
+- A GitHub Actions workflow runs daily at 06:00 UTC and on `workflow_dispatch`, then publishes `docs/digest/` to GitHub Pages. No secrets are required. Adzuna and Telegram run only if those repository secrets exist.
+
+The workflow YAML is [`docs/digest-workflow.yml`](docs/digest-workflow.yml). Copy it to `.github/workflows/digest.yml` once (GitHub OAuth tokens without the `workflow` scope cannot push files under `.github/workflows/`). Then enable Pages: **Settings → Pages → Source: GitHub Actions**.
+
+### Limitations
+
+- Listings are recent public posts, not a ranked “best fit”. There is no resume matching on this path.
+- Visa / sponsorship / worldwide-remote badges are **keyword heuristics**. They are not legal advice. Confirm on the employer listing and on the official pages linked in the digest.
+- Adzuna Australia is omitted unless API keys are present (free tier at developer.adzuna.com).
+- EURES is queried through the portal’s public JSON search and throttled to the `robots.txt` crawl-delay of 10 seconds, so a run takes a couple of minutes.
+- Remote boards (Remotive, Remote OK, We Work Remotely) rarely carry civil engineering or metal press roles; those titles depend more on EURES / Arbeitnow.
+- Sources can be briefly down; the digest still publishes with whatever succeeded.
+
+---
+
 ## Files you'll want to edit
 
 | File | What it's for |
@@ -61,6 +113,7 @@ The agent follows [`AGENTS.md`](AGENTS.md) to run the scrapers (`npm run build &
 | `.env` (from `.env.example`) | Your flower answers, resume path, Telegram credentials |
 | `state/preferences.json` (from [`preferences.example.json`](state/preferences.example.json)) | Hard filters: keywords, seniority, excluded levels |
 | [`resumes/*.ts`](resumes) | Your resume variant(s) — role, summary, PDF path |
+| [`state/digest-config.json`](state/digest-config.json) | Daily digest roles, keywords, destinations, official visa URLs |
 
 ---
 
