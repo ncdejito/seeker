@@ -89,7 +89,7 @@ Screenshots: [`docs/screenshots/apply-kit-desktop.png`](docs/screenshots/apply-k
 ### Share it with someone non-technical
 
 - **Send the folder:** zip `apply-kit/` and ask them to open `index.html`.
-- **GitHub Pages:** on push to `main`, [`.github/workflows/apply-kit-pages.yml`](.github/workflows/apply-kit-pages.yml) deploys the folder to `/apply-kit`. Enable Pages: repo **Settings → Pages → GitHub Actions**. After that, the app is at `https://<user>.github.io/seeker/apply-kit/`.
+- **GitHub Pages:** copy [`apply-kit/deploy/apply-kit-pages.yml`](apply-kit/deploy/apply-kit-pages.yml) to `.github/workflows/apply-kit-pages.yml` (needs a GitHub token with the `workflow` scope). On push to `main` it deploys the folder to `/apply-kit`. Enable Pages: repo **Settings → Pages → GitHub Actions**. After that, the app is at `https://<user>.github.io/seeker/apply-kit/`.
 - **Share progress, not the CV:** use **Export CSV**. Profile and tracker never leave the browser unless they export.
 
 ### What it does
