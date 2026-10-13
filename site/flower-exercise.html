@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Flower exercise · Seeker PH Job Hub</title>
+  <link rel="icon" href="logo.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <p><a href="index.html">← Back to the Job Hub</a></p>
+    <header class="hero">
+      <img class="mark" src="logo.png" width="72" height="72" alt="">
+      <div>
+        <p class="eyebrow">Seven Petals</p>
+        <h1>Flower exercise</h1>
+        <p class="lede">Same prompt as <code>prompts/flower-exercise.md</code>. Copy it into ChatGPT, Claude, or any AI chat. Answer specifically — vague answers produce vague job filtering.</p>
+      </div>
+    </header>
+    <section class="panel">
+      <button type="button" class="primary" id="copy">Copy prompt</button>
+      <span class="status" id="status"></span>
+      <pre id="prompt" style="white-space:pre-wrap;font-family:var(--sans);background:#fff;padding:16px;border-radius:10px;border:1px solid var(--line);margin-top:14px;">I want to do the "Seven Petals of the Flower" self-assessment exercise from Richard Bolles' What Color Is Your Parachute, to figure out what job I should be looking for. Interview me one petal at a time, asking follow-up questions until each answer is concrete and specific (names of industries, cities, salary numbers, team sizes — not vague generalities). The seven petals are:
+
+1. Who you are — your core skills, values, and identity (not job titles — traits like "calm under pressure," "detail-oriented")
+2. What you want to do — the goals, subject matter, or type of work that excites you
+3. Where you want to do it — geography: cities, countries, remote/hybrid/onsite preference
+4. How you want to do it — your working style: structured vs. informal, independent vs. collaborative, pace
+5. Who you want to do it with — team size, company size, management style, culture
+6. Conditions you'll accept — salary floor, benefits, vacation, other dealbreakers
+7. Why you want to do it — your deeper purpose or motivation for this work
+
+Once we've covered all seven, output the final result as seven quoted one-paragraph strings in exactly this format (so I can paste it directly into a .env file):
+
+FLOWER_PART1="..."
+FLOWER_PART2="..."
+FLOWER_PART3="..."
+FLOWER_PART4="..."
+FLOWER_PART5="..."
+FLOWER_PART6="..."
+FLOWER_PART7="..."
+
+Start by asking me about petal 1.</pre>
+    </section>
+    <p><a href="https://github.com/ncdejito/seeker/blob/main/prompts/flower-exercise.md" target="_blank" rel="noopener noreferrer">Source on GitHub</a></p>
+  </div>
+  <script>
+    document.getElementById('copy').addEventListener('click', function () {
+      var text = document.getElementById('prompt').innerText;
+      var status = document.getElementById('status');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          status.textContent = 'Copied. Paste into any AI chat.';
+        }).catch(function () {
+          status.textContent = 'Select the prompt and copy it yourself.';
+        });
+      } else {
+        status.textContent = 'Select the prompt and copy it yourself.';
+      }
+    });
+  </script>
+</body>
+</html>

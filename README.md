@@ -14,6 +14,63 @@ Manual job searching is time-consuming and inconsistent, and it's easy to drift 
 
 ---
 
+## MVP option A: how to use and share
+
+**Seeker PH Job Hub** is a zero-backend static page for Filipino job seekers targeting, in order, the **EU, Spain, Australia, and remote** work. It is meant to be usable today with no install: pick a role, pick a destination, open the search links, read the visa pathway, follow the 7-step checklist.
+
+Roles: data engineer, product manager, full stack engineer, civil engineer, metal press technician.
+
+### Try it in under 2 minutes
+
+1. Open [`site/index.html`](site/index.html) in a browser (double-click the file), **or** from this repo:
+
+   ```bash
+   cd site
+   python3 -m http.server 8080
+   ```
+
+   Then visit [http://localhost:8080](http://localhost:8080).
+
+2. Tap a role, then a destination. The page fills in board searches, a pathway card, and the checklist.
+
+3. Optional: run the data check with `npm run test:site` (or `node tests/site-data.test.mjs`).
+
+After this branch is merged to `main`, enable GitHub Pages (Settings → Pages → Source: GitHub Actions). Copy [`docs/github-pages-workflow.yml`](docs/github-pages-workflow.yml) to `.github/workflows/pages.yml` (that path needs the `workflow` OAuth scope). The workflow deploys `/site` on push to `main` only.
+
+### How to share
+
+The URL keeps your choices in the hash. Copy it with the **Copy share link** button and paste into Messenger, WhatsApp, or email.
+
+Examples:
+
+- `#role=data-engineer&dest=spain`
+- `#role=civil-engineer&dest=australia`
+- `#role=full-stack-engineer&dest=remote`
+
+Role ids: `data-engineer`, `product-manager`, `full-stack-engineer`, `civil-engineer`, `metal-press-technician`.  
+Destination ids: `eu`, `spain`, `australia`, `remote`.
+
+### What you get for each combo
+
+1. **Pre-filled search links** (at least three) to public boards for that pair — EURES, InfoJobs / LinkedIn Spain, SEEK / Adzuna AU, Hiring Cafe, We Work Remotely, Remote OK, Remotive, Working Nomads, and similar — with English and Spanish/local keywords.
+2. **Pathway card** — main visa or work routes (EU Blue Card, Spain highly-qualified / ordinary work visa, Australia Skills in Demand 482 and occupation lists, remote contractor / EOR), credential notes (PRC → Engineers Australia / Spain homologación where it applies), and DMW/POEA notes plus an anti-illegal-recruiter warning. Every government claim links out; treat it as **verify on official site**.
+3. **7-step checklist** and the flower exercise: [`site/flower-exercise.html`](site/flower-exercise.html) / [`prompts/flower-exercise.md`](prompts/flower-exercise.md).
+
+Screenshots: [`docs/screenshots/`](docs/screenshots/).
+
+### Edit the data
+
+All roles, keywords, URLs, and visa notes live in [`site/data.js`](site/data.js). Change that file and refresh the page. No build step.
+
+### Limitations (option A)
+
+- No backend, login, scraping, or LLM calls.
+- Visa text is a starting map, not legal advice. Occupation lists, salary floors, and forms change — open the official URL.
+- Some boards (SEEK, Indeed, LinkedIn) show a bot check to datacenter IPs; they work in a normal browser.
+- Remote press-operator jobs barely exist; that combo is honest about CAD/CAM / CNC instead.
+
+---
+
 ## How to use this repo
 
 ### 1. Figure out what you're actually looking for

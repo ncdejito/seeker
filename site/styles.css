@@ -1,0 +1,379 @@
+:root {
+  --paper: #f4efe4;
+  --paper-deep: #ebe3d2;
+  --ink: #1c1410;
+  --ink-soft: #4a3f36;
+  --gold: #b8893a;
+  --gold-deep: #8d6420;
+  --forest: #1f4d3a;
+  --forest-hover: #16382b;
+  --stamp: #8b2e2e;
+  --card: #fffaf1;
+  --line: rgba(28, 20, 16, 0.12);
+  --shadow: 0 12px 32px rgba(28, 20, 16, 0.08);
+  --serif: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --sans: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  line-height: 1.55;
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(184, 137, 58, 0.12), transparent 50%),
+    radial-gradient(900px 400px at 100% 0%, rgba(31, 77, 58, 0.08), transparent 45%),
+    var(--paper);
+  min-height: 100vh;
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  color: var(--forest);
+}
+
+a:hover {
+  color: var(--gold-deep);
+}
+
+.skip {
+  position: absolute;
+  left: -999px;
+  top: 0;
+}
+
+.skip:focus {
+  left: 12px;
+  top: 12px;
+  background: var(--card);
+  padding: 8px 12px;
+  z-index: 10;
+}
+
+.wrap {
+  width: min(960px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+header.hero {
+  padding: 28px 0 8px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px 22px;
+  align-items: center;
+}
+
+.mark {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0 0 8px;
+}
+
+.lede {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 46rem;
+}
+
+.tagalog {
+  margin: 8px 0 0;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.banner {
+  margin: 22px 0;
+  padding: 14px 16px;
+  border: 1px solid #e4c3c3;
+  border-left: 6px solid var(--stamp);
+  background: #fbf3f1;
+  border-radius: 6px;
+}
+
+.banner strong {
+  color: var(--stamp);
+}
+
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 18px;
+}
+
+.panel h2 {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  margin: 0 0 6px;
+}
+
+.hint {
+  margin: 0 0 14px;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+.choices {
+  display: grid;
+  gap: 10px;
+}
+
+.roles {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.dests {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+@media (max-width: 720px) {
+  header.hero {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .dests {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.choice {
+  appearance: none;
+  border: 1.5px solid var(--gold);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 12px;
+  padding: 12px 12px 10px;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  min-height: 72px;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.12s ease;
+}
+
+.choice:hover,
+.choice:focus-visible {
+  transform: translateY(-1px);
+  outline: 2px solid var(--forest);
+  outline-offset: 2px;
+}
+
+.choice[aria-pressed="true"] {
+  background: var(--forest);
+  color: #f6f1e8;
+  border-color: var(--forest);
+}
+
+.choice .label {
+  display: block;
+  font-weight: 700;
+}
+
+.choice .blurb {
+  display: block;
+  font-size: 0.82rem;
+  opacity: 0.86;
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 8px 0 18px;
+}
+
+button.primary,
+.copy-link {
+  font: inherit;
+  font-weight: 700;
+  border: 0;
+  background: var(--forest);
+  color: #f6f1e8;
+  padding: 10px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+button.primary:hover,
+.copy-link:hover {
+  background: var(--forest-hover);
+}
+
+.hash {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  background: var(--paper-deep);
+  padding: 8px 10px;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.status {
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+}
+
+.results[hidden] {
+  display: none;
+}
+
+.kicker {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+}
+
+.subkicker {
+  margin: 0 0 16px;
+  color: var(--ink-soft);
+}
+
+.links {
+  display: grid;
+  gap: 10px;
+}
+
+.job-link {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+}
+
+.job-link:hover {
+  border-color: var(--gold);
+}
+
+.job-link .name {
+  font-weight: 700;
+  color: var(--forest);
+}
+
+.job-link .kw {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+.job-link .go {
+  grid-row: 1 / span 2;
+  align-self: center;
+  font-weight: 700;
+  color: var(--gold-deep);
+}
+
+.pathway {
+  border-top: 3px solid var(--gold);
+}
+
+.route {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.route:last-child {
+  border-bottom: 0;
+}
+
+.route h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.official {
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: 700;
+}
+
+.verify {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--stamp);
+  font-weight: 700;
+}
+
+.caveats {
+  margin: 12px 0 0;
+  padding-left: 18px;
+}
+
+.dmw-box {
+  margin-top: 14px;
+  padding: 12px;
+  background: #fbf3f1;
+  border-radius: 8px;
+}
+
+.checklist ol {
+  margin: 0;
+  padding-left: 22px;
+}
+
+.checklist li {
+  margin: 0 0 12px;
+}
+
+.checklist li strong {
+  display: block;
+}
+
+footer {
+  padding: 12px 0 40px;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.sources {
+  font-size: 0.85rem;
+}
+
+.sources a {
+  margin-right: 10px;
+}
