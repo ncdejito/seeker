@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Seeker PH Job Hub</title>
+  <meta name="description" content="Zero-setup job hub for Filipino seekers targeting EU, Spain, Australia, and remote roles.">
+  <link rel="icon" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#pickers">Skip to role and destination</a>
+  <div class="wrap">
+    <header class="hero">
+      <img class="mark" src="logo.png" width="72" height="72" alt="Seeker mark">
+      <div>
+        <p class="eyebrow">Seeker · MVP option A</p>
+        <h1>PH Job Hub</h1>
+        <p class="lede">A shareable starting kit for Filipino job seekers targeting the EU, Spain, Australia, and remote work. Pick a role and a destination. You get search links, a visa pathway, and a 7-step checklist. No login, no install.</p>
+        <p class="tagalog">Walang setup. Piliin ang role at destination, tapos i-share ang link.</p>
+      </div>
+    </header>
+
+    <aside class="banner" role="note">
+      <strong>Anti-illegal recruiter.</strong>
+      Anyone in the Philippines who recruits you for a job abroad must appear on the
+      <a href="https://dmw.gov.ph/inquiry/licensed-recruitment-agencies" target="_blank" rel="noopener noreferrer">DMW licensed-agency list</a>.
+      Never pay a “guaranteed visa”, never surrender your passport, never fly as a tourist “to convert to work”.
+      Report tips to <a href="mailto:airtipinfo@dmw.gov.ph">airtipinfo@dmw.gov.ph</a> or DMW 1348.
+      Visa notes on this page are a map — <em>verify on the official site</em>.
+    </aside>
+
+    <main id="pickers">
+      <section class="panel" aria-labelledby="role-heading">
+        <h2 id="role-heading">1. Your role</h2>
+        <p class="hint">Five roles this hub is built for. You can edit titles and keywords in <code>data.js</code>.</p>
+        <div id="roles" class="choices roles"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="dest-heading">
+        <h2 id="dest-heading">2. Destination</h2>
+        <p class="hint">EU (any member state), Spain, Australia, or fully remote.</p>
+        <div id="dests" class="choices dests"></div>
+      </section>
+
+      <div class="toolbar">
+        <button type="button" class="copy-link" id="copy-link">Copy share link</button>
+        <code class="hash" id="share-hash">#role=…&amp;dest=…</code>
+        <span class="status" id="copy-status"></span>
+      </div>
+
+      <p id="empty" class="hint">Choose a role and a destination to see boards, the pathway card, and the checklist.</p>
+
+      <div id="results" hidden>
+        <h2 class="kicker" id="result-kicker"></h2>
+        <p class="subkicker" id="result-sub"></p>
+
+        <section class="panel" aria-labelledby="links-heading">
+          <h2 id="links-heading">Search these boards</h2>
+          <p class="hint">Links open with keywords already filled in where the board allows it. Apply on the board itself — this page does not scrape or submit applications.</p>
+          <div id="job-links" class="links"></div>
+        </section>
+
+        <section class="panel pathway" aria-labelledby="path-heading">
+          <h2 id="path-heading">Pathway card</h2>
+          <p class="hint" id="verify-line"></p>
+          <h3>Visa / work routes</h3>
+          <div id="visa-routes"></div>
+          <h3>Credentials and recognition</h3>
+          <div id="credentials"></div>
+          <ul id="caveats" class="caveats"></ul>
+          <div class="dmw-box">
+            <h3>DMW / former POEA</h3>
+            <p id="dmw-summary"></p>
+            <p id="dmw-extra"></p>
+            <p id="dmw-warning"></p>
+            <div id="dmw-links"></div>
+          </div>
+        </section>
+
+        <section class="panel checklist" aria-labelledby="check-heading">
+          <h2 id="check-heading">7-step checklist</h2>
+          <p class="hint">Step 1 uses the <a href="flower-exercise.html">flower exercise</a> (same prompt as <a href="prompts/flower-exercise.md">prompts/flower-exercise.md</a>).</p>
+          <ol id="checklist"></ol>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <p>Seeker PH Job Hub is a static page. It does not scrape job boards, store your data, or file visas. Edit <code>site/data.js</code> to add boards or correct a note.</p>
+      <p class="sources">
+        Official starting points:
+        <a href="https://home-affairs.ec.europa.eu/policies/migration-and-asylum/eu-immigration-portal/eu-blue-card_en" target="_blank" rel="noopener noreferrer">EU Blue Card</a>
+        <a href="https://one.gob.es/en/procedures/application-residence-highly-qualified-professionals" target="_blank" rel="noopener noreferrer">Spain highly qualified</a>
+        <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/skills-in-demand-visa-subclass-482" target="_blank" rel="noopener noreferrer">Australia 482</a>
+        <a href="https://dmw.gov.ph/inquiry/licensed-recruitment-agencies" target="_blank" rel="noopener noreferrer">DMW agencies</a>
+      </p>
+    </footer>
+  </div>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
